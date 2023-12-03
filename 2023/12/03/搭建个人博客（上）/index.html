@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建个人博客（上） | Image Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用Hexo+GitHub Pages搭建个人博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建个人博客（上）">
+<meta property="og:url" content="https://image-builder-1837.github.io/2023/12/03/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:site_name" content="Image Builder">
+<meta property="og:description" content="使用Hexo+GitHub Pages搭建个人博客">
+<meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png">
+<meta property="article:published_time" content="2023-12-03T08:53:29.000Z">
+<meta property="article:modified_time" content="2023-12-03T13:37:53.840Z">
+<meta property="article:author" content="image_builder">
+<meta property="article:tag" content="CTF web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png">
+  
+    <link rel="icon" href="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123101729849.png">
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    });
+  </script>
+  
+<link rel="stylesheet" href="/css/index.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">Image Builder</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            <a href="https://github.com/image-builder-1837" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+          
+          
+            <a href="/" class="nav-menu ">HOME</a>
+          
+        
+          
+          
+            <a href="/archives" class="nav-menu ">ARCHIVE</a>
+          
+        
+          
+          
+            <a href="/about" class="nav-menu ">ABOUT</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">搭建个人博客（上）</h2>
+  <p class="sub">Dec 3, 2023</p>
+  <article class="content">
+    <h1 id="搭建个人博客（上）"><a href="#搭建个人博客（上）" class="headerlink" title="搭建个人博客（上）"></a>搭建个人博客（上）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>“要搭个人博客！”这个想法我也不太清楚具体是什么时候出现的，大概是看了诸多大佬的博客之后就自然而然地想要效仿吧。总之，借着一个奇怪的契机（K佬：去搭一个博客 我：好嘞），也是正式开始整博客了。作为我的第一篇博客，就讲讲我搭博客的过程以及遇到的一些小麻烦吧。</p>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><p>在怎么搭个人博客这个问题上，我考虑过三种整法：</p>
+<ol>
+<li>在现有的博客平台（如CSDN、博客园等）上写</li>
+<li>用博客框架写，部署在GitHub Pages上</li>
+<li>用博客框架写，部署在云服务器上</li>
+</ol>
+<p>考虑了一下，如果要搭个人博客，我更喜欢自己能够定制整个页面，况且本人对CSDN等的好感度一直都挺低的，于是方案一被直接抛弃了；方案三需要我掏钱买一台暂时还没有别的用处的仅仅用来搭博客的云服务器以及一个域名，虽然有一台自己的服务器和一个自己的域名实在是酷毙了，但我的钱包还是让我放弃了方案三。最终我选择了折中的方案二，也就是广受欢迎的Hexo+GitHub Pages建站。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>博客，启动！</p>
+<h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><p>安装Hexo需要Nodejs环境，先去<a target="_blank" rel="noopener" href="https://nodejs.org/">Nodejs官网</a>下载安装包。一般来说会有LTS和Current两个版本，LTS全称是Long Term Support，也就是长期支持版本，相对会更稳定且不容易出bug，所以正常情况下载LTS版本就行了。安装过程就是一路无脑Next，安装完后可以在cmd中运行以下两个命令验证是否安装成功：</p>
+<pre><code class="shell">node -v
+npm -v
+# 如果都输出版本号就是安装成功了
+</code></pre>
+<p>接下来安装Hexo：</p>
+<pre><code class="shell">npm install -g hexo-cli    # -g指全局安装，局部安装可以运行npm install hexo
+</code></pre>
+<p>验证安装成功：</p>
+<pre><code class="shell">hexo v    # 输出Hexo以及依赖包的版本
+</code></pre>
+<p>准备一个用来存放博客文件的空文件夹，在这个文件夹中打开cmd并运行：</p>
+<pre><code class="shell">hexo init    # 博客目录的初始化
+npm install    # 安装博客需要的包
+</code></pre>
+<p>这个时候文件夹中应该多出了一大堆乱七八糟的文件和文件夹。太棒了，已经初始化好了！来看看Hexo官方送我们的新手大礼包是什么样的吧：</p>
+<pre><code class="shell">hexo g    # 从你写的博客中生成静态网页文件，以后每次更新完博客都要运行一遍
+hexo s    # 在本地localhost:4000生成预览
+</code></pre>
+<p>在浏览器中访问 <code>localhost:4000</code>：</p>
+<p><img src="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png" alt="2023123190147976.png"></p>
+<p>Hello Hexo!</p>
+<h3 id="Git-GitHub"><a href="#Git-GitHub" class="headerlink" title="Git &amp; GitHub"></a>Git &amp; GitHub</h3><p>我在搭博客之前就已经在使用这个游戏存档工具和最佳菜谱网站了，如果没安装Git或者没有GitHub账号的话可以参考网上各位大佬们的教程（我真懒）</p>
+<p>装完Git以及注册完GitHub账号之后，需要新建一个仓库（repository），并取名叫 <code>USERNAME.github.io</code>（USERNAME就是你在GitHub的账号名）这个名字具有特殊意义，GitHub会把这个仓库里的文件作为网站文件建站，可以通过 <code>https://USERNAME.github.io</code>访问。</p>
+<p>值得一提的是，许多教程中提到需要配置GitHub SSH key，但那其实是通过SSH连接GitHub才必要的步骤，如果在等会讲到的Hexo配置文件中使用HTTPS连接就可以省去这个步骤。我嘛，因为<a target="_blank" rel="noopener" href="https://github.com/BeyondDimension/SteamTools/releases/tag/3.0.0-rc.2">Watt Toolkit 3.0.0-rc.2</a>在代理GitHub时并没有处理22端口，不停止加速就无法使用SSH连接，于是我毫不犹豫地选择了HTTPS连接。</p>
+<h3 id="Hexo-Git-GitHub"><a href="#Hexo-Git-GitHub" class="headerlink" title="Hexo+Git+GitHub"></a>Hexo+Git+GitHub</h3><p>在博客的文件夹下有个叫做 <code>_config.yml</code>的文件，是整个博客的配置文件。不过现在需要它做的暂时只是让它告诉Hexo用什么方式（Git）把博客放到哪里（Github）去。随便用什么文字编辑器打开它，保证当中有这么几行：</p>
+<pre><code class="yaml">deploy:
+  type: git
+  repo: https://github.com/USERNAME/USERNAME.github.io.git
+  branch: main
+</code></pre>
+<p>当然也可以选择用SSH而不是HTTPS的方式连接Github，需要把repo属性改成 <code>git@github.com:USERNAME/USERNAME.github.io.git</code>以及配置Github SSH key，详情请见网上各大佬的文章（懒开二度）</p>
+<p>接下来装能让Hexo通过Git部署博客的插件：</p>
+<pre><code class="shell">npm install hexo-deployer-git --save
+</code></pre>
+<p>部署！</p>
+<pre><code class="shell">hexo d
+</code></pre>
+<p>去 <code>https://USERNAME.github.io</code>看看：</p>
+<p><img src="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/20231231927426.png" alt="20231231927426.png"></p>
+<p>Hello GitHub Hexo!</p>
+<h2 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h2><p>第一步的搭建已经完成了，该回头看看究竟发生什么了。首先要看的就是根目录下的 <code>_config.yml</code>这个配置文件。</p>
+<p><code>.yml</code>扩展名的文件使用的是YAML语言，因其能清晰地表达层次结构，常用于书写配置文件。YAML的语法并不复杂，只需要10分钟左右就足以掌握其大致用法。</p>
+<p>了解大致用法之后，就可以正式看看 <code>_config.yml</code>里面都塞了些什么了。完整的配置选项可以在<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/configuration">Hexo官方文档</a>的“配置”一节中查看，下面是一些我的常用配置选项：</p>
+<pre><code class="yaml">title: Image Builder    # 网站标题，就是显示在标签页上的文字
+subtitle: image_builder&#39;s blog    # 副标题
+description: image_builder&#39;s blog    # 简介，主要是给搜索引擎看的
+keywords: CTF web    # 关键词
+author: image_builder    # 作者名字
+language: default    # 网站语言，这个需要根据主题灵活调整
+timezone: Asia/Shanghai    # 时区，中国大陆填Asia/Shanghai就行
+
+url: https://image-builder-1837.github.io    # 网站网址
+
+theme: clover    # 网站主题
+</code></pre>
+<h2 id="写博客"><a href="#写博客" class="headerlink" title="写博客"></a>写博客</h2><h3 id="Markdown"><a href="#Markdown" class="headerlink" title="Markdown"></a>Markdown</h3><p>Hexo创建的博客文件默认使用Markdown语法书写，这年头不会Markdown真的还算编程人吗（暴论）</p>
+<p>调侃归调侃，Markdown最大的特点就是将样式融合进了文本之中，这使得书写Markdown时并非像Word那样需要用鼠标一个个选中调整，而是双手不离开键盘就能同时完成书写和排版。如今无论是GitHub的 <code>README.md</code>或是大部分笔记软件如Obsidian、Typora、trilium等都使用Markdown语法，这值得每个希望能集中精神码字的人学习。</p>
+<h3 id="子文件夹"><a href="#子文件夹" class="headerlink" title="子文件夹"></a>子文件夹</h3><p>在正式开始写博客之前，大致了解一下博客文件夹中几个子文件夹的作用有助于理解Hexo的工作方式。</p>
+<ul>
+<li>node_modules：存放Nodejs的一些包</li>
+<li>public：<code>hexo g</code>生成的静态网页文件都放在这里，<code>hexo d</code>也是把这个文件夹发送给GitHub</li>
+<li>scaffolds：等会的博客文件都是用这里面的模板生成的</li>
+<li>source：博客、主页、归档、关于等页面文件存放的位置</li>
+<li>themes：放主题的地方</li>
+</ul>
+<h3 id="New"><a href="#New" class="headerlink" title="New!"></a>New!</h3><p>来生成一篇新博客！</p>
+<pre><code class="shell">hexo new &quot;Title&quot;
+</code></pre>
+<p>Hexo有默认有三种模板：</p>
+<ul>
+<li>post：默认模板，用于生成博客</li>
+<li>page：用来生成一些诸如主页、归档、关于等非博客页面文件</li>
+<li>draft：草稿，感觉没啥用</li>
+</ul>
+<p>默认使用post模板，这个例子中会用 <code>scaffolds/post.md</code>在 <code>source/_posts </code>下生成 <code>Title.md</code>。如果你要生成“关于”页面：</p>
+<pre><code class="shell">hexo new page &quot;About&quot;
+</code></pre>
+<p>就会用 <code>scaffolds/page.md</code>在 <code>source/About</code>下生成 <code>index.md</code>。</p>
+<p>接下来就可以用你喜欢的Markdown编辑器<del>（比如VSCode）</del>打开 <code>Title.md</code>进行写作了。写完依旧是 <code>hexo g</code>加 <code>hexo s</code>预览，<code>hexo d</code>部署，就不在此赘述了。</p>
+<h3 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h3><p>有时在博客中需要引用图片，一种简单直接的做法就是把图片放在 <code>source</code>文件夹下通过相对路径引用。但这种做法在图片数量越来越多的情况下会狠狠地拖慢网站的加载速度。所以可以选择把图片上传到图床里并使用Markdown图片语法 <code>![ImageName](ImageLink)</code>来引用。	所谓的图床就是见网上大佬的科普（三回啊三回）</p>
+<p>其实也可以专门建一个GitHub仓库充当图床，我就是这么干的。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此，Hexo的搭建以及基本使用都已经讲完了，下回该讲讲让我博客拖了整整三天才完成的罪魁祸首——主题了🥶</p>
+
+  </article>
+  <footer class="f-cf">
+    
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  <a href="mailto:image_builder@qq.com">image_builder@qq.com</a>
+  
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+        · <a href="https://github.com/image-builder-1837" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+  
+  <span class="copyright">This blog by <a href="/">image_builder</a> is licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></span>
+</footer>
+  </div>
+</body>
+</html>
