@@ -36,9 +36,8 @@ body {
   src: url("/fonts/MaturaMTScriptCapitals.ttf");
 }
 @font-face {
-  font-family: "iconfont"; /* project id 861369 */
-  src: url("//at.alicdn.com/t/font_861369_9voy0xmnmvl.eot");
-  src: url("//at.alicdn.com/t/font_861369_9voy0xmnmvl.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_861369_9voy0xmnmvl.woff") format("woff"), url("//at.alicdn.com/t/font_861369_9voy0xmnmvl.ttf") format("truetype"), url("//at.alicdn.com/t/font_861369_9voy0xmnmvl.svg#iconfont") format("svg");
+  font-family: "iconfont"; /* Project id 4356364 */
+  src: url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.woff2?t=1701695612820") format("woff2"), url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.woff?t=1701695612820") format("woff"), url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.ttf?t=1701695612820") format("truetype");
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -48,26 +47,20 @@ body {
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
-.iconfont.icon-behance::before {
-  content: "\e919";
-}
-.iconfont.icon-lofter::before {
-  content: "\e63c";
-}
-.iconfont.icon-instagram::before {
-  content: "\e626";
-}
-.iconfont.icon-dribbble::before {
-  content: "\e6c3";
+.iconfont.icon-bilibili::before {
+  content: "\e600";
 }
 .iconfont.icon-github::before {
   content: "\e799";
 }
+.iconfont.icon-rss::before {
+  content: "\e6d0";
+}
 .iconfont.icon-arrow-left::before {
-  content: "\e91a";
+  content: "\e75b";
 }
 .iconfont.icon-arrow-right::before {
-  content: "\e636";
+  content: "\e75c";
 }
 
 .f-fl {
