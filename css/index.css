@@ -312,6 +312,10 @@ body {
   line-height: 30px;
   margin-bottom: 15px;
 }
+.article > .content code {
+  font-size: 13px;
+  line-height: 20px;
+}
 .article > .content pre, .article > .content .highlight {
   overflow: auto;
   padding: 0;
