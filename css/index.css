@@ -1,4 +1,4 @@
-@import 'reset.css';
+@import 'normalize.css';
 #container {
   max-width: 980px;
   margin: 90px auto 75px;
