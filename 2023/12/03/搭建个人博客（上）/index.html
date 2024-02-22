@@ -8,18 +8,19 @@
   <meta name="description" content="使用Hexo+GitHub Pages搭建个人博客">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建个人博客（上）">
-<meta property="og:url" content="https://image-builder-1837.github.io/2023/12/03/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:url" content="https://imagebuilder1837.github.io/2023/12/03/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
 <meta property="og:site_name" content="Image Builder">
 <meta property="og:description" content="使用Hexo+GitHub Pages搭建个人博客">
 <meta property="og:locale">
-<meta property="og:image" content="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023123190147976.png">
 <meta property="article:published_time" content="2023-12-03T08:53:29.000Z">
-<meta property="article:modified_time" content="2023-12-03T13:37:53.840Z">
+<meta property="article:modified_time" content="2024-02-22T10:07:29.379Z">
 <meta property="article:author" content="image_builder">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023123190147976.png">
   
-    <link rel="icon" href="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123101729849.png">
+    <link rel="icon" href="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023123101729849.png">
   
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
@@ -58,7 +59,7 @@
         
           
           
-            <a href="https://github.com/image-builder-1837" target="_blank" class="nav-icn iconfont icon-github"></a>
+            <a href="https://github.com/ImageBuilder1837" target="_blank" class="nav-icn iconfont icon-github"></a>
           
         
           
@@ -79,6 +80,11 @@
           
           
             <a href="/archives" class="nav-menu ">ARCHIVE</a>
+          
+        
+          
+          
+            <a href="/tags" class="nav-menu ">TAG</a>
           
         
           
@@ -123,7 +129,7 @@ npm install    # 安装博客需要的包
 hexo s    # 在本地localhost:4000生成预览
 </code></pre>
 <p>在浏览器中访问 <code>localhost:4000</code>：</p>
-<p><img src="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/2023123190147976.png" alt="2023123190147976.png"></p>
+<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023123190147976.png" alt="2023123190147976.png"></p>
 <p>Hello Hexo!</p>
 <h3 id="Git-GitHub"><a href="#Git-GitHub" class="headerlink" title="Git &amp; GitHub"></a>Git &amp; GitHub</h3><p>我在搭博客之前就已经在使用这个游戏存档工具和最佳菜谱网站了，如果没安装Git或者没有GitHub账号的话可以参考网上各位大佬们的教程（我真懒）</p>
 <p>装完Git以及注册完GitHub账号之后，需要新建一个仓库（repository），并取名叫 <code>USERNAME.github.io</code>（USERNAME就是你在GitHub的账号名）这个名字具有特殊意义，GitHub会把这个仓库里的文件作为网站文件建站，可以通过 <code>https://USERNAME.github.io</code>访问。</p>
@@ -142,7 +148,7 @@ hexo s    # 在本地localhost:4000生成预览
 <pre><code class="shell">hexo d
 </code></pre>
 <p>去 <code>https://USERNAME.github.io</code>看看：</p>
-<p><img src="https://raw.githubusercontent.com/image-builder-1837/ImageHost/main/20231231927426.png" alt="20231231927426.png"></p>
+<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/20231231927426.png" alt="20231231927426.png"></p>
 <p>Hello GitHub Hexo!</p>
 <h2 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h2><p>第一步的搭建已经完成了，该回头看看究竟发生什么了。首先要看的就是根目录下的 <code>_config.yml</code>这个配置文件。</p>
 <p><code>.yml</code>扩展名的文件使用的是YAML语言，因其能清晰地表达层次结构，常用于书写配置文件。YAML的语法并不复杂，只需要10分钟左右就足以掌握其大致用法。</p>
@@ -150,12 +156,12 @@ hexo s    # 在本地localhost:4000生成预览
 <pre><code class="yaml">title: Image Builder    # 网站标题，就是显示在标签页上的文字
 subtitle: image_builder&#39;s blog    # 副标题
 description: image_builder&#39;s blog    # 简介，主要是给搜索引擎看的
-keywords: CTF web    # 关键词
+keywords: 编程 观读玩后感 键政    # 关键词
 author: image_builder    # 作者名字
 language: default    # 网站语言，这个需要根据主题灵活调整
 timezone: Asia/Shanghai    # 时区，中国大陆填Asia/Shanghai就行
 
-url: https://image-builder-1837.github.io    # 网站网址
+url: https://ImageBuilder1837.github.io    # 网站网址
 
 theme: clover    # 网站主题
 </code></pre>
@@ -206,7 +212,7 @@ theme: clover    # 网站主题
     
       
       
-        · <a href="https://github.com/image-builder-1837" target="_blank" class="nav-icn">GitHub</a>
+        · <a href="https://github.com/ImageBuilder1837" target="_blank" class="nav-icn">GitHub</a>
       
     
       
