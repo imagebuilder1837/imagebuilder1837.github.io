@@ -5,22 +5,22 @@
   
   <title>搭建个人博客（下） | Image Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="clover主题那些事儿">
+  <meta name="description" content="clover 主题那些事儿">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建个人博客（下）">
 <meta property="og:url" content="https://imagebuilder1837.github.io/2023/12/04/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8B%EF%BC%89/index.html">
 <meta property="og:site_name" content="Image Builder">
-<meta property="og:description" content="clover主题那些事儿">
+<meta property="og:description" content="clover 主题那些事儿">
 <meta property="og:locale">
-<meta property="og:image" content="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023124220745107.png">
+<meta property="og:image" content="https://imagebuilder1837.github.io/images/2023124220745107.png">
 <meta property="article:published_time" content="2023-12-04T13:53:40.000Z">
-<meta property="article:modified_time" content="2024-02-22T10:05:50.179Z">
+<meta property="article:modified_time" content="2024-06-19T13:58:36.929Z">
 <meta property="article:author" content="image_builder">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023124220745107.png">
+<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2023124220745107.png">
   
-    <link rel="icon" href="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023123101729849.png">
+    <link rel="icon" href="/images/2023123101729849.ico">
   
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
@@ -100,10 +100,10 @@
   <h2 class="title">搭建个人博客（下）</h2>
   <p class="sub">Dec 4, 2023</p>
   <article class="content">
-    <h1 id="搭建个人博客（下）"><a href="#搭建个人博客（下）" class="headerlink" title="搭建个人博客（下）"></a>搭建个人博客（下）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇博客主要分享了我一路把Hexo博客搭到能用的流程，看着就像一篇正经介绍的教程。这其实是因为截至上篇结尾我都是顺风顺水地跟着大佬们的文章走的。但这回就得好好介绍介绍我被<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover">clover</a>狠狠拷打的故事了。</p>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>不介意的话Hexo默认的landscape也不是不行，但我在翻阅<a target="_blank" rel="noopener" href="https://juejin.cn/post/7053744641383874574">一篇掘金的主题推荐</a>时被clover狠狠地吸引了。</p>
+    <h1 id="搭建个人博客（下）"><a href="#搭建个人博客（下）" class="headerlink" title="搭建个人博客（下）"></a>搭建个人博客（下）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇博客主要分享了我一路把 Hexo 博客搭到能用的流程，看着就像一篇正经介绍的教程。这其实是因为截至上篇结尾我都是顺风顺水地跟着大佬们的文章走的。但这回就得好好介绍介绍我被 <a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover">clover</a> 狠狠拷打的故事了。</p>
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>不介意的话 Hexo 默认的 landscape 也不是不行，但我在翻阅<a target="_blank" rel="noopener" href="https://juejin.cn/post/7053744641383874574">一篇掘金的主题推荐</a>时被 clover 狠狠地吸引了。</p>
 <p>好，既然选定了主题，那就赶紧整起来！</p>
-<p>跟着clover主题的 <code>README.md</code>一步步走：</p>
+<p>跟着 clover 主题的 <code>README.md</code> 一步步走：</p>
 <pre><code class="shell">git clone https://github.com/esappear/hexo-theme-clover themes/clover
 npm install hexo-renderer-sass --save
 </code></pre>
@@ -139,32 +139,32 @@ title: about
 <pre><code class="shell">ERROR ReferenceError: _ is not defined
 </code></pre>
 <p>啊？</p>
-<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>我看着报错信息，大脑宕机了一瞬间。不过既然出问题了，那就去GitHub上翻翻issue。一看，<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/issues/22">最新的issue</a>提到的就是这个问题：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125084104945.png" alt="2023125084104945.png"></p>
-<p>好家伙，都是三年前的issue了，看看解决了没：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/202312508583120.jpeg" alt="202312508583120.jpeg"></p>
+<h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>我看着报错信息，大脑宕机了一瞬间。不过既然出问题了，那就去 GitHub 上翻翻 issue。一看，<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/issues/22">最新的 issue</a> 提到的就是这个问题：</p>
+<p><img src="/images/2023125084104945.png" alt="2023125084104945.png"></p>
+<p>好家伙，都是三年前的 issue 了，看看解决了没：</p>
+<p><img src="/images/202312508583120.jpeg" alt="202312508583120.jpeg"></p>
 <p>行吧，看来只能自己动手丰衣足食了。</p>
-<h2 id="修bug"><a href="#修bug" class="headerlink" title="修bug"></a>修bug</h2><p>叠个甲，我此前几乎完全没有Javascript基础，所有相关知识都是现学现卖，解决方法可能又莽又蠢，大佬们轻点喷😫</p>
+<h2 id="修bug"><a href="#修bug" class="headerlink" title="修bug"></a>修bug</h2><p>叠个甲，我此前几乎完全没有 Javascript 基础，所有相关知识都是现学现卖，解决方法可能又莽又蠢，大佬们轻点喷😫</p>
 <h3 id="一把梭"><a href="#一把梭" class="headerlink" title="一把梭"></a>一把梭</h3><p>再看一眼报错信息：</p>
 <pre><code class="shell">ERROR ReferenceError: _ is not defined
 </code></pre>
-<p>这个报错在 <code>layout</code>文件夹下的 <code>archive.ejs</code>、<code>category.ejs</code>、<code>tag.ejs</code>，以及 <code>layout/_partial</code>里的 <code>footer.ejs</code>、<code>nav.ejs</code>都有发生。看起来是一个变量未定义的问题，先去找找这个下划线是何方神圣。一路找到 <code>scripts/home.js</code>里：</p>
+<p>这个报错在 <code>layout</code> 文件夹下的 <code>archive.ejs</code>、<code>category.ejs</code>、<code>tag.ejs</code>，以及 <code>layout/_partial</code> 里的 <code>footer.ejs</code>、<code>nav.ejs</code> 都有发生。看起来是一个变量未定义的问题，先去找找这个下划线是何方神圣。一路找到 <code>scripts/home.js</code> 里：</p>
 <pre><code class="javascript">&#39;use strict&#39;;
 var pagination = require(&#39;hexo-pagination&#39;);
 var assign = require(&#39;object-assign&#39;);
 var _ = require(&#39;lodash&#39;);
 </code></pre>
-<p>看起来这个下划线本来应该是一个叫lodash的导入的库，但不知道为什么这些ejs模板没办法使用这个变量，有大佬知道而且不嫌麻烦的话可以发邮件给我这个小白科普一下（谢谢！）我本着最简单直接的想法（未定义就再给它定义上）在所有报错的文件开头都加了一句：</p>
+<p>看起来这个下划线本来应该是一个叫 lodash 的导入的库，但不知道为什么这些 ejs 模板没办法使用这个变量，我本着最简单直接的想法（未定义就再给它定义上）在所有报错的文件开头都加了一句：</p>
 <pre><code class="javascript">var _ = require(&#39;lodash&#39;);
 </code></pre>
 <p>再跑一遍试试：</p>
 <pre><code class="shell">ERROR ReferenceError: require is not defined
 </code></pre>
 <p>看来是我想得太简单了。</p>
-<h3 id="一点Javascript历史"><a href="#一点Javascript历史" class="headerlink" title="一点Javascript历史"></a>一点Javascript历史</h3><p>话说require是Javascript中的导入函数，直觉上这类函数应该是语言本身的内置函数，怎么会未定义呢？我去网上翻了翻，发现这似乎与Javascript作为浏览器脚本语言的定位有关。</p>
-<p>根据<a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/7127481.html">这篇博客园的文章</a>，Javascript并不是一种模块化编程语言，在es6之前它是不支持类（class）的，自然也没有模块一说。2009年，美国程序员Ryan Dahl创立了Nodejs项目，将Javascript语言用于服务器端编程。前端的复杂程度有限，没有模块也是可以的，但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。Nodejs使用了CommonJS规范来实现模块化编程，require就是其中加载模块的全局性方法。</p>
-<p>但Hexo不就是基于Nodejs环境的吗，怎么会用不了require呢？</p>
-<p>我又找到了<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38977714/article/details/117252524">一篇文章</a>，似乎是因为在Nodejs大版本14以上，require作为CommonJS的一个命令已经不支持直接使用了。文章也给出了解决方法：</p>
+<h3 id="一点-Javascript-历史"><a href="#一点-Javascript-历史" class="headerlink" title="一点 Javascript 历史"></a>一点 Javascript 历史</h3><p>话说 require 是 Javascript 中的导入函数，直觉上这类函数应该是语言本身的内置函数，怎么会未定义呢？我去网上翻了翻，发现这似乎与 Javascript 作为浏览器脚本语言的定位有关。</p>
+<p>根据<a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/7127481.html">这篇博客园的文章</a>，Javascript 并不是一种模块化编程语言，在 es6 之前它是不支持类（class）的，自然也没有模块一说。2009年，美国程序员 Ryan Dahl 创立了 Nodejs 项目，将 Javascript 语言用于服务器端编程。前端的复杂程度有限，没有模块也是可以的，但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。Nodejs 使用了 CommonJS 规范来实现模块化编程，require 就是其中加载模块的全局性方法。</p>
+<p>但 Hexo 不就是基于 Nodejs 环境的吗，怎么会用不了 require 呢？</p>
+<p>我又找到了<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38977714/article/details/117252524">一篇文章</a>，似乎是因为在 Nodejs 大版本 14 以上，require 作为 CommonJS 的一个命令已经不支持直接使用了。文章也给出了解决方法：</p>
 <pre><code class="javascript">import &#123; createRequire &#125; from &#39;module&#39;;
 const require = createRequire(import.meta.url);
 </code></pre>
@@ -173,31 +173,31 @@ const require = createRequire(import.meta.url);
 </code></pre>
 <p>这回网上的解决方法有两种：</p>
 <ol>
-<li>使用 <code>.mjs </code>后缀名</li>
-<li>在 <code>package.json</code>中加入 <code>&quot;type&quot;: &quot;module&quot;</code></li>
+<li>使用 <code>.mjs </code> 后缀名。</li>
+<li>在 <code>package.json</code> 中加入 <code>&quot;type&quot;: &quot;module&quot;</code>。</li>
 </ol>
-<p>发生问题的是ejs模板文件，第一种方法肯定不能采用了；第二种方法经尝试仍然会报错。</p>
-<p>那把Nodejs降级到14以下的版本呢？</p>
-<p>我下载了12.22.12版本的Nodejs进行覆盖安装。需要注意的是，用户目录 <code>AppData</code>下 <code>Local</code>和 <code>Roaming</code>中的缓存文件夹 <code>npm</code>、<code>npm-cache</code>以及 <code>node-gyp</code>需要手动删除以防版本冲突。</p>
-<p>结果还是失败了，无论是require还是import都会报错。</p>
+<p>发生问题的是 ejs 模板文件，第一种方法肯定不能采用了；第二种方法经尝试仍然会报错。</p>
+<p>那把 Nodejs 降级到 14 以下的版本呢？</p>
+<p>我下载了 12.22.12 版本的 Nodejs 进行覆盖安装。需要注意的是，用户目录 <code>AppData</code> 下 <code>Local</code> 和 <code>Roaming</code> 中的缓存文件夹 <code>npm</code>、<code>npm-cache</code> 以及 <code>node-gyp</code> 需要手动删除以防版本冲突。</p>
+<p>结果还是失败了，无论是 require 还是 import 都会报错。</p>
 <p>这下思路断了。</p>
-<h3 id="no-lodash"><a href="#no-lodash" class="headerlink" title="no-lodash"></a>no-lodash</h3><p>我开始失意地翻阅<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo官方文档</a>，在“变量”一节找到了这样一句话：</p>
+<h3 id="no-lodash"><a href="#no-lodash" class="headerlink" title="no-lodash"></a>no-lodash</h3><p>我开始失意地翻阅 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo 官方文档</a>，在“变量”一节找到了这样一句话：</p>
 <blockquote>
 <p>从 Hexo 5.0.0 开始，Lodash 已从全局变量中移除。迁移时 <a target="_blank" rel="noopener" href="https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore">You-Dont-Need-Lodash-Underscore</a> 或许能为你提供帮助。</p>
 </blockquote>
-<p>简而言之就是：既然用不了lodash，那就把所有lodash的函数全换掉。</p>
+<p>简而言之就是：既然用不了 lodash，那就把所有 lodash 的函数全换掉。</p>
 <p>不错！有够简单粗暴的！</p>
-<p>接下来就是找出所有下划线并一个个换成等效函数的体力活了。不过这个项目中提供的都是只适用于数组的方法，object相关的替换我是自己用for循环写的。于是lodash被我彻底踢出了这个主题。</p>
+<p>接下来就是找出所有下划线并一个个换成等效函数的体力活了。不过这个项目中提供的都是只适用于数组的方法，object 相关的替换我是自己用 for 循环写的。于是 lodash 被我彻底踢出了这个主题。</p>
 <h3 id="一个小插曲"><a href="#一个小插曲" class="headerlink" title="一个小插曲"></a>一个小插曲</h3><p>Generate!</p>
 <pre><code class="shell">Error: Unknown output style &quot;nested&quot;
 </code></pre>
-<p>找到主题文件夹下的 <code>_config.yml</code>，把 <code>node_sass</code>下的 <code>outputStyle</code>属性删掉就行了。</p>
-<p>至此，bug fix的环节算是告一段落了，我也把修改的部分提交了<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/pull/23">一个PR</a>，希望能被merge吧。</p>
-<h2 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h2><p>clover是<a target="_blank" rel="noopener" href="https://esappear.github.io/clover/">Clover Tuan</a>太太编写的，但是并没有注明使用的开源许可证，所以如果太太您在看并且觉得我这么擅自改动不合适的话请发邮件告诉我，我会马上改的！</p>
-<h3 id="首页图标"><a href="#首页图标" class="headerlink" title="首页图标"></a>首页图标</h3><p>太太在首页展示的默认图标有Dribbble、Behance、Lofter、Instagram以及GitHub。那如果我想加点别的图标该怎么办？不如说这个首页图标究竟是怎么回事？</p>
-<p>既然搞不懂，就去看看这究竟是怎么实现的。我直接简单粗暴地拿元素选择器框中了GitHub图标：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125135656497.png" alt="2023125135656497.png"></p>
-<p>居然不是图片？逐一查看和它相关的css，发现玄机藏在 <code>source/css/font.scss</code>中：</p>
+<p>找到主题文件夹下的 <code>_config.yml</code>，把 <code>node_sass</code> 下的 <code>outputStyle</code> 属性删掉就行了。</p>
+<p>至此，bug fix 的环节算是告一段落了，我也把修改的部分提交了<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/pull/24">一个 PR</a> ，希望能被 merge 吧。</p>
+<h2 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h2><p>clover 是 <a target="_blank" rel="noopener" href="https://esappear.github.io/clover/">Clover Tuan</a> 太太编写的，但是并没有注明使用的开源许可证，所以如果太太您在看并且觉得这样不合适的话还请告知。</p>
+<h3 id="首页图标"><a href="#首页图标" class="headerlink" title="首页图标"></a>首页图标</h3><p>太太在首页展示的默认图标有 Dribbble、Behance、Lofter、Instagram 以及 GitHub。那如果我想加点别的图标该怎么办？不如说这个首页图标究竟是怎么回事？</p>
+<p>既然搞不懂，就去看看这究竟是怎么实现的。我直接简单粗暴地拿元素选择器框中了 GitHub 图标：</p>
+<p><img src="/images/2023125135656497.png" alt="2023125135656497.png"></p>
+<p>居然不是图片？逐一查看和它相关的 css，发现玄机藏在 <code>source/css/font.scss</code> 中：</p>
 <pre><code class="scss">@font-face &#123;
   font-family: &#39;iconfont&#39;;  /* project id 861369 */
   src: url(&#39;//at.alicdn.com/t/font_861369_9voy0xmnmvl.eot&#39;);
@@ -236,18 +236,18 @@ const require = createRequire(import.meta.url);
   &#125;
 &#125;
 </code></pre>
-<p>经过一番搜索，我大致明白了原理：通过引用字体图标文件，让特定Unicode字符显示为图标的样子。</p>
-<p>明白了原理就可以开始动手了。找图标可以用阿里的在线字体图标服务<a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont矢量图标库</a>，只要不商用一般也不会牵扯到版权问题。</p>
+<p>经过一番搜索，我大致明白了原理：通过引用字体图标文件，让特定 Unicode 字符显示为图标的样子。</p>
+<p>明白了原理就可以开始动手了。找图标可以用阿里的在线字体图标服务 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont 矢量图标库</a>，只要不商用一般也不会牵扯到版权问题。</p>
 <p>先注册一个账号，然后可以搜索自己需要的图标（因为太太的代码原因，请选择名称全小写的图标），添加入库：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125145725908.png" alt="2023125145725908.png"></p>
+<p><img src="/images/2023125145725908.png" alt="2023125145725908.png"></p>
 <p>挑选完图标之后，点击网站右上角带红点的购物车，选择添加至项目（没有项目可以新建一个）：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125172010904.png" alt="2023125172010904.png"></p>
+<p><img src="/images/2023125172010904.png" alt="2023125172010904.png"></p>
 <p>此时会自动跳转到项目里面，点击“查看在线链接”并生成代码：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125151243912.png" alt="2023125151243912.png"></p>
-<p>记下每一个图标的Unicode编号，可以点击“编辑”查看：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125151929908.png" alt="2023125151929908.png"></p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125152037907.png" alt="2023125152037907.png"></p>
-<p>用生成的代码替换掉原来 <code>source/css/font.scss</code>中的部分，每个图标也照葫芦画瓢地写如下一段：</p>
+<p><img src="/images/2023125151243912.png" alt="2023125151243912.png"></p>
+<p>记下每一个图标的 Unicode 编号，可以点击“编辑”查看：</p>
+<p><img src="/images/2023125151929908.png" alt="2023125151929908.png"></p>
+<p><img src="/images/2023125152037907.png" alt="2023125152037907.png"></p>
+<p>用生成的代码替换掉原来 <code>source/css/font.scss</code> 中的部分，每个图标也照葫芦画瓢地写如下一段：</p>
 <pre><code class="scss">  &amp;.icon-ICONNAME::before &#123;
     content: &#39;\ICONUNICODE&#39;;
   &#125;
@@ -283,19 +283,19 @@ const require = createRequire(import.meta.url);
   &#125;
 &#125;
 </code></pre>
-<p>来到主题文件夹下的 <code>_config.yml</code>，修改social部分的属性值：</p>
+<p>来到主题文件夹下的 <code>_config.yml</code>，修改 social 部分的属性值：</p>
 <pre><code class="yaml">social:
   bilibili: https://space.bilibili.com/366719977
   GitHub: https://github.com/ImageBuilder1837
   RSS: /atom.xml
 </code></pre>
 <p>看看效果：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125153237900.png" alt="2023125153237900.png"></p>
+<p><img src="/images/2023125153237900.png" alt="2023125153237900.png"></p>
 <p>Done!</p>
-<h3 id="RSS"><a href="#RSS" class="headerlink" title="RSS"></a>RSS</h3><p>个人博客怎么能不支持RSS呢？好在Hexo配置RSS也不复杂，首先下载生成RSS的插件：</p>
+<h3 id="RSS"><a href="#RSS" class="headerlink" title="RSS"></a>RSS</h3><p>个人博客怎么能不支持 RSS 呢？好在 Hexo 配置 RSS 也不复杂，首先下载生成 RSS 的插件：</p>
 <pre><code class="shell">npm install hexo-generator-feed --save
 </code></pre>
-<p>在根目录下的 <code>_config.yml</code>配置：</p>
+<p>在根目录下的 <code>_config.yml</code> 配置：</p>
 <pre><code class="yaml"># Extensions
 plugins:
   hexo-generator-feed
@@ -305,16 +305,16 @@ feed:
   path: atom.xml
   limit: 20
 </code></pre>
-<p>在主题文件夹下的 <code>_config.yml</code>配置：</p>
+<p>在主题文件夹下的 <code>_config.yml</code> 配置：</p>
 <pre><code class="yaml"># RSS
 rss: /atom.xml
 </code></pre>
-<p>这样就会在网站的 <code>/atom.xml</code>下生成RSS订阅了（不知道为什么这里是乱码，我尝试在阅读器里打开是正常的）：</p>
-<p><img src="https://raw.githubusercontent.com/ImageBuilder1837/ImageHost/main/2023125154425911.jpeg" alt="2023125154425911.jpeg"></p>
-<p>可以在首页也加一个RSS的图标，具体的写法可以往上翻翻。</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>剩下的都是些微不足道的小改动，比如增加mail发送链接啦，增加copyright跳转链接什么的。</p>
+<p>这样就会在网站的 <code>/atom.xml</code> 下生成 RSS 订阅了（不知道为什么这里是乱码，我尝试在阅读器里打开是正常的）：</p>
+<p><img src="/images/2023125154425911.jpeg" alt="2023125154425911.jpeg"></p>
+<p>可以在首页也加一个 RSS 的图标，具体的写法可以往上翻翻。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>剩下的都是些微不足道的小改动，比如增加 mail 发送链接啦，增加 copyright 跳转链接什么的。</p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>嗷嗷嗷终于写完了！单论个人博客的搭建其实并没有很复杂，主要是我选主题的问题（</p>
-<p>咳咳，虽然搞七搞八地配置一大通确实挺麻烦，但完成的时候简直成就感爆棚！而且这几天搭博客也学到了一些奇奇怪怪的知识，比如在GitHub merge PR的时候要记得squash &amp; merge而不是直接merge（会让commit history变丑的！），又或者是一段关于Javascript模块化编程的历史等等。试想刚开始搭博客时怎么想到能扯到这些方面？也算是意料外的收获吧。</p>
+<p>咳咳，虽然搞七搞八地配置一大通确实挺麻烦，但完成的时候简直成就感爆棚！而且这几天搭博客也学到了一些奇奇怪怪的知识，比如在 GitHub merge PR 的时候要记得 squash and merge 而不是直接 merge（会让 commit history 变丑的！），又或者是一段关于 Javascript 模块化编程的历史等等。试想刚开始搭博客时怎么想到能扯到这些方面？也算是意料外的收获吧。</p>
 
   </article>
   <footer class="f-cf">
@@ -346,7 +346,7 @@ rss: /atom.xml
       
     
   
-  <span class="copyright">This blog by <a href="/" target="_blank">image_builder</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+  <span class="copyright">This blog by <a href="/" target="_blank">image_builder</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
 </footer>
   </div>
 </body>
