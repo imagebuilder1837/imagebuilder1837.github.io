@@ -8,7 +8,7 @@
 }
 @font-face {
   font-family: "iconfont"; /* Project id 4356364 */
-  src: url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.woff2?t=1701695612820") format("woff2"), url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.woff?t=1701695612820") format("woff"), url("//at.alicdn.com/t/c/font_4356364_82dhsvzbmln.ttf?t=1701695612820") format("truetype");
+  src: url("/fonts/iconfont/iconfont.woff2") format("woff2"), url("/fonts/iconfont/iconfont.woff") format("woff"), url("/fonts/iconfont/iconfont.ttf") format("truetype");
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -18,6 +18,12 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+.iconfont.icon-arrow-left::before {
+  content: "\e75b";
+}
+.iconfont.icon-arrow-right::before {
+  content: "\e75c";
+}
 .iconfont.icon-bilibili::before {
   content: "\e600";
 }
@@ -26,10 +32,4 @@
 }
 .iconfont.icon-rss::before {
   content: "\e6d0";
-}
-.iconfont.icon-arrow-left::before {
-  content: "\e75b";
-}
-.iconfont.icon-arrow-right::before {
-  content: "\e75c";
 }
