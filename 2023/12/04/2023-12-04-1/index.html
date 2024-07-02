@@ -8,19 +8,19 @@
   <meta name="description" content="clover 主题那些事儿">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建个人博客（下）">
-<meta property="og:url" content="https://imagebuilder1837.github.io/2023/12/04/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8B%EF%BC%89/index.html">
+<meta property="og:url" content="https://imagebuilder1837.github.io/2023/12/04/2023-12-04-1/index.html">
 <meta property="og:site_name" content="imagebuilder1837">
 <meta property="og:description" content="clover 主题那些事儿">
 <meta property="og:locale">
-<meta property="og:image" content="https://imagebuilder1837.github.io/images/2023124220745107.png">
+<meta property="og:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.png">
 <meta property="article:published_time" content="2023-12-04T13:53:40.000Z">
-<meta property="article:modified_time" content="2024-06-27T01:28:31.468Z">
+<meta property="article:modified_time" content="2024-07-02T04:40:20.087Z">
 <meta property="article:author" content="imagebuilder1837">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2023124220745107.png">
+<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.png">
   
-    <link rel="icon" href="/images/2023123101729849.ico">
+    <link rel="icon" href="/images/avatar.ico">
   
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
@@ -140,9 +140,9 @@ title: about
 </code></pre>
 <p>啊？</p>
 <h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>我看着报错信息，大脑宕机了一瞬间。不过既然出问题了，那就去 GitHub 上翻翻 issue。一看，<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/issues/22">最新的 issue</a> 提到的就是这个问题：</p>
-<p><img src="/images/2023125084104945.png" alt="2023125084104945.png"></p>
+<p><img src="/images/2023-12-04-1-01.png" alt="2023-12-04-1-01.png"></p>
 <p>好家伙，都是三年前的 issue 了，看看解决了没：</p>
-<p><img src="/images/202312508583120.jpeg" alt="202312508583120.jpeg"></p>
+<p><img src="/images/2023-12-04-1-02.jpeg" alt="2023-12-04-1-02.jpeg"></p>
 <p>行吧，看来只能自己动手丰衣足食了。</p>
 <h2 id="修bug"><a href="#修bug" class="headerlink" title="修bug"></a>修bug</h2><p>叠个甲，我此前几乎完全没有 Javascript 基础，所有相关知识都是现学现卖，解决方法可能又莽又蠢，大佬们轻点喷😫</p>
 <h3 id="一把梭"><a href="#一把梭" class="headerlink" title="一把梭"></a>一把梭</h3><p>再看一眼报错信息：</p>
@@ -196,7 +196,7 @@ const require = createRequire(import.meta.url);
 <h2 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h2><p>clover 是 <a target="_blank" rel="noopener" href="https://esappear.github.io/clover/">Clover Tuan</a> 太太编写的，但是并没有注明使用的开源许可证，所以如果太太您在看并且觉得这样不合适的话还请告知。</p>
 <h3 id="首页图标"><a href="#首页图标" class="headerlink" title="首页图标"></a>首页图标</h3><p>太太在首页展示的默认图标有 Dribbble、Behance、Lofter、Instagram 以及 GitHub。那如果我想加点别的图标该怎么办？不如说这个首页图标究竟是怎么回事？</p>
 <p>既然搞不懂，就去看看这究竟是怎么实现的。我直接简单粗暴地拿元素选择器框中了 GitHub 图标：</p>
-<p><img src="/images/2023125135656497.png" alt="2023125135656497.png"></p>
+<p><img src="/images/2023-12-04-1-03.png" alt="2023-12-04-1-03.png"></p>
 <p>居然不是图片？逐一查看和它相关的 css，发现玄机藏在 <code>source/css/font.scss</code> 中：</p>
 <pre><code class="scss">@font-face &#123;
   font-family: &#39;iconfont&#39;;  /* project id 861369 */
@@ -239,14 +239,14 @@ const require = createRequire(import.meta.url);
 <p>经过一番搜索，我大致明白了原理：通过引用字体图标文件，让特定 Unicode 字符显示为图标的样子。</p>
 <p>明白了原理就可以开始动手了。找图标可以用阿里的在线字体图标服务 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont 矢量图标库</a>，只要不商用一般也不会牵扯到版权问题。</p>
 <p>先注册一个账号，然后可以搜索自己需要的图标（因为太太的代码原因，请选择名称全小写的图标），添加入库：</p>
-<p><img src="/images/2023125145725908.png" alt="2023125145725908.png"></p>
+<p><img src="/images/2023-12-04-1-04.png" alt="2023-12-04-1-04.png"></p>
 <p>挑选完图标之后，点击网站右上角带红点的购物车，选择添加至项目（没有项目可以新建一个）：</p>
-<p><img src="/images/2023125172010904.png" alt="2023125172010904.png"></p>
+<p><img src="/images/2023-12-04-1-05.png" alt="2023-12-04-1-05.png"></p>
 <p>此时会自动跳转到项目里面，点击“查看在线链接”并生成代码：</p>
-<p><img src="/images/2023125151243912.png" alt="2023125151243912.png"></p>
+<p><img src="/images/2023-12-04-1-06.png" alt="2023-12-04-1-06.png"></p>
 <p>记下每一个图标的 Unicode 编号，可以点击“编辑”查看：</p>
-<p><img src="/images/2023125151929908.png" alt="2023125151929908.png"></p>
-<p><img src="/images/2023125152037907.png" alt="2023125152037907.png"></p>
+<p><img src="/images/2023-12-04-1-07.png" alt="2023-12-04-1-07.png"></p>
+<p><img src="/images/2023-12-04-1-08.png" alt="2023-12-04-1-08.png"></p>
 <p>用生成的代码替换掉原来 <code>source/css/font.scss</code> 中的部分，每个图标也照葫芦画瓢地写如下一段：</p>
 <pre><code class="scss">  &amp;.icon-ICONNAME::before &#123;
     content: &#39;\ICONUNICODE&#39;;
@@ -290,7 +290,7 @@ const require = createRequire(import.meta.url);
   RSS: /atom.xml
 </code></pre>
 <p>看看效果：</p>
-<p><img src="/images/2023125153237900.png" alt="2023125153237900.png"></p>
+<p><img src="/images/2023-12-04-1-09.png" alt="2023-12-04-1-09.png"></p>
 <p>Done!</p>
 <h3 id="RSS"><a href="#RSS" class="headerlink" title="RSS"></a>RSS</h3><p>个人博客怎么能不支持 RSS 呢？好在 Hexo 配置 RSS 也不复杂，首先下载生成 RSS 的插件：</p>
 <pre><code class="shell">npm install hexo-generator-feed --save
@@ -310,7 +310,7 @@ feed:
 rss: /atom.xml
 </code></pre>
 <p>这样就会在网站的 <code>/atom.xml</code> 下生成 RSS 订阅了（不知道为什么这里是乱码，我尝试在阅读器里打开是正常的）：</p>
-<p><img src="/images/2023125154425911.jpeg" alt="2023125154425911.jpeg"></p>
+<p><img src="/images/2023-12-04-1-10.jpeg" alt="2023-12-04-1-10.jpeg"></p>
 <p>可以在首页也加一个 RSS 的图标，具体的写法可以往上翻翻。</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>剩下的都是些微不足道的小改动，比如增加 mail 发送链接啦，增加 copyright 跳转链接什么的。</p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>嗷嗷嗷终于写完了！单论个人博客的搭建其实并没有很复杂，主要是我选主题的问题（</p>
@@ -319,10 +319,10 @@ rss: /atom.xml
   </article>
   <footer class="f-cf">
     
-      <a href="/2023/12/22/%E3%80%8A%E5%A5%B3%E7%A5%9E%E5%BC%82%E9%97%BB%E5%BD%955%E7%9A%87%E5%AE%B6%E7%89%88%E3%80%8B%E4%B8%80%E5%91%A8%E7%9B%AE%E5%85%A8%E6%88%90%E5%B0%B1%E7%8E%A9%E5%90%8E%E6%84%9F/" class="link f-fl"><span class="footer-icn iconfont icon-arrow-left"></span>《女神异闻录5皇家版》一周目全成就玩后感</a>
+      <a href="/2023/12/22/2023-12-22-1/" class="link f-fl"><span class="footer-icn iconfont icon-arrow-left"></span>《女神异闻录5皇家版》一周目全成就玩后感</a>
     
     
-      <a href="/2023/12/03/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%8A%EF%BC%89/" class="link f-fr">搭建个人博客（上）<span class="footer-icn iconfont icon-arrow-right"></span></a>
+      <a href="/2023/12/03/2023-12-03-1/" class="link f-fr">搭建个人博客（上）<span class="footer-icn iconfont icon-arrow-right"></span></a>
     
   </footer>
 </section></div>
