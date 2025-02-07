@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TEE 损坏修复教程 | imagebuilder1837</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="修复损坏的 TEE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TEE 损坏修复教程">
+<meta property="og:url" content="https://imagebuilder1837.github.io/2025/02/07/2025-02-07-1/index.html">
+<meta property="og:site_name" content="imagebuilder1837">
+<meta property="og:description" content="修复损坏的 TEE">
+<meta property="og:locale">
+<meta property="og:image" content="https://imagebuilder1837.github.io/images/2025-02-07-1-00.jpg">
+<meta property="article:published_time" content="2025-02-07T09:23:19.000Z">
+<meta property="article:modified_time" content="2025-02-07T14:33:08.945Z">
+<meta property="article:author" content="imagebuilder1837">
+<meta property="article:tag" content="刷机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2025-02-07-1-00.jpg">
+  
+    <link rel="icon" href="/images/avatar.ico">
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    });
+  </script>
+  
+<link rel="stylesheet" href="/css/index.css">
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="imagebuilder1837" type="application/atom+xml">
+</head>
+
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">imagebuilder1837</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+          
+            <a href="https://space.bilibili.com/366719977" target="_blank" class="nav-icn iconfont icon-bilibili"></a>
+          
+        
+          
+          
+            <a href="https://github.com/imagebuilder1837" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+          
+          
+            <a href="/atom.xml" target="_blank" class="nav-icn iconfont icon-rss"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+          
+          
+            <a href="/" class="nav-menu ">HOME</a>
+          
+        
+          
+          
+            <a href="/archives" class="nav-menu ">ARCHIVE</a>
+          
+        
+          
+          
+            <a href="/tags" class="nav-menu ">TAG</a>
+          
+        
+          
+          
+            <a href="/about" class="nav-menu ">ABOUT</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">TEE 损坏修复教程</h2>
+  <p class="sub">Feb 7, 2025</p>
+  <article class="content">
+    <h1 id="TEE-损坏修复教程"><a href="#TEE-损坏修复教程" class="headerlink" title="TEE 损坏修复教程"></a>TEE 损坏修复教程</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大半夜里正刷机刷着玩的机佬，或许是过于手贱，不幸作死乱动了 persist 分区，机佬的手机因此获得无法恢复的 TEE 损坏。对此，给出的惩罚居然是……给我整晚地找办法修啊，三回啊三回！</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>根据<a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/42576990">酷安@Dogggee 的帖子</a>介绍，TEE 即手机的可信执行环境，是古希腊掌管生物信息和指纹支付的神。某些谷歌应用会验证 TEE 的环境，如果检测到 TEE 损坏直接拒绝启动。虽然国内的应用较少依赖 TEE，但如果这个模块损坏，相当于 APP 能直接读取手机中存储的生物信息，四舍五入你的指纹信息就相当于是裸奔了</p>
+<p>TEE 损坏分为假死和真死。假死是指可逆的 TEE 损坏，例如某些厂商（如蓝厂）解锁后会自动损坏 TEE，回锁即可自动修复；又比如一些隐藏 BL 锁的模块也会导致 TEE 损坏，卸载模块即可解决。真死一般只会是动了原厂 persist 分区才会出现，真死的 TEE 损坏是不可逆的，通常意义上的修复方法也只是写入其他设备的密钥文件使 TEE 假性恢复</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p><strong>叠甲时间：本文所述恢复方法仅作为自己恢复经历的记录，不保证在其他情况下能完全复现成功。刷机会清除所有数据，还需谨慎操作</strong></p>
+<p>恢复 TEE 需要先准备好以下三个素材：</p>
+<ol>
+<li>对应机型工程包：这类包通常带有诸如“eng_firmware”之类的标识，酷安对应机型的讨论区通常会有分享</li>
+<li>对应机型官方系统包：顾名思义，即对应机型官方提供的刷机包</li>
+<li>有效 keybox：即用于恢复 TEE 的 xml 密钥文件，一般网上流传的有些时日的 keybox 都会被谷歌吊销而无效化，可以在酷安上碰运气翻翻，说不定就能翻到好心人分享的还新鲜有效的 keybox 呢（亲身经历）</li>
+</ol>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>将手机重启至 fastboot 模式</li>
+<li>通过 <code>fastboot oem edl</code> 进入 9008 模式</li>
+<li>使用<a target="_blank" rel="noopener" href="https://lsdy.top/gjzs">搞机助手</a>的 9008 刷机模式刷入工程包（理论上高通官方的 <a target="_blank" rel="noopener" href="https://qpsttool.com/">QPST</a> 应该也行，但我试了没成功）</li>
+<li>刷入工程包后我这台机器 BootLoader 被重新锁定，使用小米解锁工具解锁 BootLoader</li>
+<li>解压缩官方系统包并复制出其中的 <code>persist.img</code>（如果是卡刷包则可能需要使用 <a target="_blank" rel="noopener" href="https://github.com/vm03/payload_dumper">payload_dumper</a> 解包卡刷包中的 <code>payload.bin</code> 文件得到）</li>
+<li>将从系统包中提取的 <code>persist.img</code> 刷入 persist 分区</li>
+<li>重启进入工程系统，在设置中连击系统版本号进入开发者选项，开启 USB 调试选项</li>
+<li>通过 adb 输入以下命令：</li>
+</ol>
+<pre><code class="powershell">adb root
+adb disable-verity
+adb reboot
+adb root
+adb remount
+adb shell mkdir -p /data/nativetest64/qti_keymaster_tests/
+adb push keybox.xml /data/nativetest64/qti_keymaster_tests/
+adb shell LD_LIBRARY_PATH=/vendor/lib64/hw KmInstallKeybox /data/nativetest64/qti_keymaster_tests/keybox.xml &lt;DeviceID&gt; true
+# 其中的 &lt;DeviceID&gt; 在 keybox xml 文件头部，可通过文本编辑器打开发现
+</code></pre>
+<ol start="9">
+<li>重启至 fastboot 刷入官方系统包（如果是卡刷包则需要先刷入第三方 recovery 如 <a target="_blank" rel="noopener" href="https://twrp.me/">TWRP</a>，再重启至 recovery 中刷入）</li>
+</ol>
+<p>如果你的 keybox 是有效的，<a target="_blank" rel="noopener" href="https://github.com/vvb2060/KeyAttestation">密钥认证</a>检测应该就能显示正常了。哦没跌多！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.coolapk.com/feed/53401471">酷安@Yz_阳子 的教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/chiteroman/Reprogram-TEE-on-Qualcomm-devices">Reprogram-TEE-on-Qualcomm-devices</a></li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>最大的感想：刷机的时候千万不要手贱作死乱动分区💀</p>
+
+  </article>
+  <footer class="f-cf">
+    
+    
+      <a href="/2024/02/22/2024-02-22-1/" class="link f-fr">回顾马前卒和傅正关于“左宗棠解放新疆”的争论<span class="footer-icn iconfont icon-arrow-right"></span></a>
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  <a href="mailto:imagebuilder1837@outlook.com" target="_blank">imagebuilder1837@outlook.com</a>
+  
+    
+      
+      
+        · <a href="https://space.bilibili.com/366719977" target="_blank" class="nav-icn">bilibili</a>
+      
+    
+      
+      
+        · <a href="https://github.com/imagebuilder1837" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+      
+      
+        · <a href="/atom.xml" target="_blank" class="nav-icn">RSS</a>
+      
+    
+  
+  <span class="copyright">This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+</footer>
+  </div>
+</body>
+</html>
