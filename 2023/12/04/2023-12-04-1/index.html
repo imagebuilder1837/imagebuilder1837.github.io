@@ -12,13 +12,14 @@
 <meta property="og:site_name" content="imagebuilder1837">
 <meta property="og:description" content="clover 主题那些事儿">
 <meta property="og:locale">
-<meta property="og:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.png">
+<meta property="og:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.jpeg">
 <meta property="article:published_time" content="2023-12-04T13:53:40.000Z">
-<meta property="article:modified_time" content="2025-02-06T09:38:41.542Z">
+<meta property="article:modified_time" content="2025-03-26T13:00:49.031Z">
 <meta property="article:author" content="imagebuilder1837">
 <meta property="article:tag" content="编程">
+<meta property="article:tag" content="网站">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.png">
+<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2023-12-04-1-00.jpeg">
   
     <link rel="icon" href="/images/avatar.ico">
   
@@ -140,7 +141,7 @@ title: about
 </code></pre>
 <p>啊？</p>
 <h2 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h2><p>我看着报错信息，大脑宕机了一瞬间。不过既然出问题了，那就去 GitHub 上翻翻 issue。一看，<a target="_blank" rel="noopener" href="https://github.com/esappear/hexo-theme-clover/issues/22">最新的 issue</a> 提到的就是这个问题：</p>
-<p><img src="/images/2023-12-04-1-01.png" alt="2023-12-04-1-01.png"></p>
+<p><img src="/images/2023-12-04-1-01.jpeg" alt="2023-12-04-1-01.jpeg"></p>
 <p>好家伙，都是三年前的 issue 了，看看解决了没：</p>
 <p><img src="/images/2023-12-04-1-02.jpeg" alt="2023-12-04-1-02.jpeg"></p>
 <p>行吧，看来只能自己动手丰衣足食了</p>
@@ -196,7 +197,7 @@ const require = createRequire(import.meta.url);
 <h2 id="微调"><a href="#微调" class="headerlink" title="微调"></a>微调</h2><p>clover 是 <a target="_blank" rel="noopener" href="https://esappear.github.io/clover/">Clover Tuan</a> 太太编写的，但是并没有注明使用的开源许可证，所以如果太太您在看并且觉得这样不合适的话还请告知</p>
 <h3 id="首页图标"><a href="#首页图标" class="headerlink" title="首页图标"></a>首页图标</h3><p>太太在首页展示的默认图标有 Dribbble、Behance、Lofter、Instagram 以及 GitHub。那如果我想加点别的图标该怎么办？不如说这个首页图标究竟是怎么回事？</p>
 <p>既然搞不懂，就去看看这究竟是怎么实现的。我直接简单粗暴地拿元素选择器框中了 GitHub 图标：</p>
-<p><img src="/images/2023-12-04-1-03.png" alt="2023-12-04-1-03.png"></p>
+<p><img src="/images/2023-12-04-1-03.jpeg" alt="2023-12-04-1-03.jpeg"></p>
 <p>居然不是图片？逐一查看和它相关的 css，发现玄机藏在 <code>source/css/font.scss</code> 中：</p>
 <pre><code class="scss">@font-face &#123;
   font-family: &#39;iconfont&#39;;  /* project id 861369 */
@@ -239,14 +240,14 @@ const require = createRequire(import.meta.url);
 <p>经过一番搜索，我大致明白了原理：通过引用字体图标文件，让特定 Unicode 字符显示为图标的样子</p>
 <p>明白了原理就可以开始动手了。找图标可以用阿里的在线字体图标服务 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont 矢量图标库</a>，只要不商用一般也不会牵扯到版权问题</p>
 <p>先注册一个账号，然后可以搜索自己需要的图标（因为太太的代码原因，请选择名称全小写的图标），添加入库：</p>
-<p><img src="/images/2023-12-04-1-04.png" alt="2023-12-04-1-04.png"></p>
+<p><img src="/images/2023-12-04-1-04.jpeg" alt="2023-12-04-1-04.jpeg"></p>
 <p>挑选完图标之后，点击网站右上角带红点的购物车，选择添加至项目（没有项目可以新建一个）：</p>
-<p><img src="/images/2023-12-04-1-05.png" alt="2023-12-04-1-05.png"></p>
+<p><img src="/images/2023-12-04-1-05.jpeg" alt="2023-12-04-1-05.jpeg"></p>
 <p>此时会自动跳转到项目里面，点击“查看在线链接”并生成代码：</p>
-<p><img src="/images/2023-12-04-1-06.png" alt="2023-12-04-1-06.png"></p>
+<p><img src="/images/2023-12-04-1-06.jpeg" alt="2023-12-04-1-06.jpeg"></p>
 <p>记下每一个图标的 Unicode 编号，可以点击“编辑”查看：</p>
-<p><img src="/images/2023-12-04-1-07.png" alt="2023-12-04-1-07.png"></p>
-<p><img src="/images/2023-12-04-1-08.png" alt="2023-12-04-1-08.png"></p>
+<p><img src="/images/2023-12-04-1-07.jpeg" alt="2023-12-04-1-07.jpeg"></p>
+<p><img src="/images/2023-12-04-1-08.jpeg" alt="2023-12-04-1-08.jpeg"></p>
 <p>用生成的代码替换掉原来 <code>source/css/font.scss</code> 中的部分，每个图标也照葫芦画瓢地写如下一段：</p>
 <pre><code class="scss">  &amp;.icon-ICONNAME::before &#123;
     content: &#39;\ICONUNICODE&#39;;
@@ -290,7 +291,7 @@ const require = createRequire(import.meta.url);
   RSS: /atom.xml
 </code></pre>
 <p>看看效果：</p>
-<p><img src="/images/2023-12-04-1-09.png" alt="2023-12-04-1-09.png"></p>
+<p><img src="/images/2023-12-04-1-09.jpeg" alt="2023-12-04-1-09.jpeg"></p>
 <p>Done!</p>
 <h3 id="RSS"><a href="#RSS" class="headerlink" title="RSS"></a>RSS</h3><p>个人博客怎么能不支持 RSS 呢？好在 Hexo 配置 RSS 也不复杂，首先下载生成 RSS 的插件：</p>
 <pre><code class="shell">npm install hexo-generator-feed --save

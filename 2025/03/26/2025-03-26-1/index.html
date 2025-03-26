@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>VSCode Python 环境配置（Windows） | imagebuilder1837</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="VSCode 真好用吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSCode Python 环境配置（Windows）">
+<meta property="og:url" content="https://imagebuilder1837.github.io/2025/03/26/2025-03-26-1/index.html">
+<meta property="og:site_name" content="imagebuilder1837">
+<meta property="og:description" content="VSCode 真好用吧">
+<meta property="og:locale">
+<meta property="og:image" content="https://imagebuilder1837.github.io/images/2025-03-26-1-00.jpeg">
+<meta property="article:published_time" content="2025-03-26T12:23:09.000Z">
+<meta property="article:modified_time" content="2025-03-26T13:01:25.901Z">
+<meta property="article:author" content="imagebuilder1837">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="环境">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imagebuilder1837.github.io/images/2025-03-26-1-00.jpeg">
+  
+    <link rel="icon" href="/images/avatar.ico">
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+      });
+    });
+  </script>
+  
+<link rel="stylesheet" href="/css/index.css">
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="imagebuilder1837" type="application/atom+xml">
+</head>
+
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">imagebuilder1837</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+          
+            <a href="https://space.bilibili.com/366719977" target="_blank" class="nav-icn iconfont icon-bilibili"></a>
+          
+        
+          
+          
+            <a href="https://github.com/imagebuilder1837" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+          
+          
+            <a href="/atom.xml" target="_blank" class="nav-icn iconfont icon-rss"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+          
+          
+            <a href="/" class="nav-menu ">HOME</a>
+          
+        
+          
+          
+            <a href="/archives" class="nav-menu ">ARCHIVE</a>
+          
+        
+          
+          
+            <a href="/tags" class="nav-menu ">TAG</a>
+          
+        
+          
+          
+            <a href="/about" class="nav-menu ">ABOUT</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">VSCode Python 环境配置（Windows）</h2>
+  <p class="sub">Mar 26, 2025</p>
+  <article class="content">
+    <h1 id="VSCode-Python-环境配置（Windows）"><a href="#VSCode-Python-环境配置（Windows）" class="headerlink" title="VSCode Python 环境配置（Windows）"></a>VSCode Python 环境配置（Windows）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>数字图像处理实验课需要配置 Python 的 OpenCV 环境，给的实验报告书是用 PyCharm 和 Anaconda，发现相当多同学配环境配得焦头烂额，于是趁机向老师安利 VSCode</p>
+<h2 id="为什么要改进现有的-Python-环境配置"><a href="#为什么要改进现有的-Python-环境配置" class="headerlink" title="为什么要改进现有的 Python 环境配置"></a>为什么要改进现有的 Python 环境配置</h2><ul>
+<li>目前实验项目书中使用重型 IDE PyCharm 与 Anaconda 配置 Python 环境，虽然目的是为了提供一键式操作，但这反而遮蔽了具体的配置细节</li>
+<li>目前的环境配置教学只是老师指挥着安装了两三个软件，对 Python 解释器、Python 包管理、代码编辑器等概念基本没有介绍，导致大伙对配置环境具体意味着什么一无所知，出现问题时难以寻找解决方案</li>
+<li>课程代码并不涉及复杂的软件工程，无法发挥 PyCharm 作为重型 IDE 的优势，反而需要承受 PyCharm 过于笨重的代价</li>
+</ul>
+<h2 id="为什么使用-VSCode-作为替代方案"><a href="#为什么使用-VSCode-作为替代方案" class="headerlink" title="为什么使用 VSCode 作为替代方案"></a>为什么使用 VSCode 作为替代方案</h2><ul>
+<li>VSCode 是纯粹的代码编辑器，并非如 PyCharm 的重型 IDE，能暴露出更多的配置细节，让人对代码究竟是如何从编写到运行的整个生命周期有更清晰的认知</li>
+<li>正因为 VSCode 是纯粹的代码编辑器，其能够轻易的跨语言，在学习其他诸如模型与算法等使用 C 语言的课程时不需要更换代码编辑器，不像现有的方案一个语言一个编辑器（Python 要装 PyCharm，C 又要装 Dev-C++）</li>
+</ul>
+<h2 id="环境配置教学目标"><a href="#环境配置教学目标" class="headerlink" title="环境配置教学目标"></a>环境配置教学目标</h2><p>这是一图流</p>
+<p><img src="/images/2025-03-26-1-01.jpeg" alt="2025-03-26-1-01.jpeg"></p>
+<p>环境配置教学应该让人理解如下概念：</p>
+<ol>
+<li>代码文本文件：除了后缀不同和 txt 文本文件没有任何区别，甚至你可以直接用记事本打开在里面写代码，写完丢给 Python 解释器就能直接运行</li>
+<li>Python 解释器：在终端中输入 <code>python</code> 打开的就是 Python 解释器，在终端中输入 <code>python xxx.py</code> 就能直接运行 Python 代码文件（所以理论上你不需要任何诸如 VSCode 或 PyCharm 的代码编辑器照样能编写并运行 Python 程序）</li>
+<li>Python 包：除了 Python 自带的标准库，其他需要你 <code>import</code> 的软件包基本都不会默认安装到你的电脑，需要通过 pip 包管理器下载</li>
+<li>PyPI 包仓库：托管绝大多数的 Python 包的网站，pip 默认就从这个网站下载 Python 包，但因为服务器位于国外所以下载速度相当慢</li>
+<li>PyPI 镜像站：为了解决下载慢的问题，由国内好心人搭建的 Python 包托管网站，通常每过数个小时就会重新从 PyPI 把 Python 包同步过来一遍，因为服务器在国内所以下载速度明显提升。其中<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/">清华大学开源软件镜像站</a>是最知名的镜像站</li>
+<li>pip 包管理器：通过终端使用的下载并管理你电脑上 Python 包的工具，常用命令如下<ol>
+<li><code>pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple</code>：将 pip 默认下载路径设置成清华源</li>
+<li><code>pip install some_package</code>：从默认下载路径下载名为 some_package 的 Python 包并安装到你的电脑</li>
+<li><code>pip uninstall some_package</code>：从你的电脑中卸载名为 some_package 的 Python 包</li>
+<li><code>pip list</code>：查看你电脑中已安装的 Python 包</li>
+</ol>
+</li>
+<li>VSCode 代码编辑器：只是一个更漂亮、功能更多的记事本而已（x）</li>
+<li>VSCode 扩展插件：VSCode 本身功能并不多，但装什么扩展插件就有什么功能。比如装了 Python 扩展插件就能写 Python，装了 C&#x2F;C++ 扩展插件就能写 C 和 C++，装了 Markdown All In One 就能写 Markdown，装了 Remote Development 套件就能远程连接 SSH、Tunnel、WSL、Docker 甚至 GitHub 仓库……总之只有想不到，没有 VSCode 扩展插件做不到</li>
+</ol>
+<h2 id="用到的软件-网站"><a href="#用到的软件-网站" class="headerlink" title="用到的软件&#x2F;网站"></a>用到的软件&#x2F;网站</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.python.org/">Python</a>：简单易学、功能强大、应用广泛的高级编程语言，具有简洁的语法、丰富的库和跨平台的特性</li>
+<li><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/">清华大学开源软件镜像站</a>：清华大学提供的，涵盖大量主流开源项目的镜像资源的，安全、稳定、快速的开源软件镜像下载服务</li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">Visual Studio Code</a>：微软开发的轻量级、功能强大的代码编辑器，通过数量庞大的扩展插件支持绝大部分编程语言的开发</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-zh-hans">Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code</a>：提供中文界面的 VSCode 扩展插件</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension for Visual Studio Code</a>：提供 Python 语法支持的 VSCode 扩展插件</li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner">Code Runner</a>：通过快捷键触发构建命令，从而实现 <code>Ctrl + Alt + N</code> 一键运行多种语言代码文件的 VSCode 扩展插件</li>
+</ul>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><h3 id="Python-安装配置"><a href="#Python-安装配置" class="headerlink" title="Python 安装配置"></a>Python 安装配置</h3><ol>
+<li>前往 <a target="_blank" rel="noopener" href="https://www.python.org/">Python 官方网站</a> 下载 Python 安装程序</li>
+</ol>
+<p><img src="/images/2025-03-26-1-02.jpeg" alt="2025-03-26-1-02.jpeg"></p>
+<ol start="2">
+<li>运行 Python 安装程序，一般按照默认选项即可，需要注意的选项如下</li>
+</ol>
+<p><img src="/images/2025-03-26-1-03.jpeg" alt="2025-03-26-1-03.jpeg"></p>
+<ol start="3">
+<li>打开终端（或 PowerShell、命令提示符（cmd）），通过 <code>--version</code> 选项验证 Python 和 pip 是否成功安装（输出版本号即为成功）</li>
+</ol>
+<p><img src="/images/2025-03-26-1-04.jpeg" alt="2025-03-26-1-04.jpeg"></p>
+<p><img src="/images/2025-03-26-1-05.jpeg" alt="2025-03-26-1-05.jpeg"></p>
+<ol start="4">
+<li>按照 <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">清华大学开源软件镜像站 pypi 使用帮助</a>，通过命令 <code>pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple</code> 让 pip 默认从清华源下载 Python 包</li>
+</ol>
+<h3 id="VSCode-安装配置"><a href="#VSCode-安装配置" class="headerlink" title="VSCode 安装配置"></a>VSCode 安装配置</h3><ol>
+<li>前往 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode 官方网站</a> 下载 VSCode 安装程序</li>
+</ol>
+<p><img src="/images/2025-03-26-1-06.jpeg" alt="2025-03-26-1-06.jpeg"></p>
+<ol start="2">
+<li>运行 VSCode 安装程序，一般按照默认选项即可，需要注意的选项如下</li>
+</ol>
+<p><img src="/images/2025-03-26-1-07.jpeg" alt="2025-03-26-1-07.jpeg"></p>
+<ol start="3">
+<li>打开 VSCode，选择左侧 Extensions 页面，搜索“chinese”安装中文扩展插件，安装完毕并重启后 VSCode 即为中文界面</li>
+</ol>
+<p><img src="/images/2025-03-26-1-08.jpeg" alt="2025-03-26-1-08.jpeg"></p>
+<ol start="4">
+<li>同理，搜索“python”安装 Python 语法支持扩展插件，搜索“code runner”安装快捷运行扩展插件</li>
+</ol>
+<p><img src="/images/2025-03-26-1-00.jpeg" alt="2025-03-26-1-00.jpeg"></p>
+<p><img src="/images/2025-03-26-1-09.jpeg" alt="2025-03-26-1-09.jpeg"></p>
+<ol start="5">
+<li>打开 Code Runner 扩展设置，勾选“Run In Terminal”选项，让 Code Runner 在 VSCode 终端中运行命令</li>
+</ol>
+<p><img src="/images/2025-03-26-1-10.jpeg" alt="2025-03-26-1-10.jpeg"></p>
+<ol start="6">
+<li>打开 Python 源代码文件，通过快捷键 <code>Ctrl + Alt + N</code> 或点击右上的小三角即可运行单个 Python 程序</li>
+</ol>
+<p><img src="/images/2025-03-26-1-11.jpeg" alt="2025-03-26-1-11.jpeg"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>现在环境配置教学对“其中发生了什么”教的还是太少了😓</p>
+
+  </article>
+  <footer class="f-cf">
+    
+      <a href="/2025/03/26/2025-03-26-2/" class="link f-fl"><span class="footer-icn iconfont icon-arrow-left"></span>VSCode C 语言环境配置（Windows）</a>
+    
+    
+      <a href="/2025/02/07/2025-02-07-1/" class="link f-fr">TEE 损坏修复教程<span class="footer-icn iconfont icon-arrow-right"></span></a>
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  <a href="mailto:imagebuilder1837@outlook.com" target="_blank">imagebuilder1837@outlook.com</a>
+  
+    
+      
+      
+        · <a href="https://space.bilibili.com/366719977" target="_blank" class="nav-icn">bilibili</a>
+      
+    
+      
+      
+        · <a href="https://github.com/imagebuilder1837" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+      
+      
+        · <a href="/atom.xml" target="_blank" class="nav-icn">RSS</a>
+      
+    
+  
+  <span class="copyright">This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></span>
+</footer>
+  </div>
+</body>
+</html>
