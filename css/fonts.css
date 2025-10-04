@@ -24,6 +24,9 @@
 .iconfont.icon-arrow-right::before {
   content: "\e75c";
 }
+.iconfont.icon-bangumi::before {
+  content: "\e605";
+}
 .iconfont.icon-bilibili::before {
   content: "\e600";
 }
@@ -32,4 +35,7 @@
 }
 .iconfont.icon-rss::before {
   content: "\e6d0";
+}
+.iconfont.icon-zhihu::before {
+  content: "\e765";
 }
