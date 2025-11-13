@@ -6,7 +6,7 @@
   <link href="https://imagebuilder1837.github.io/atom.xml" rel="self"/>
   
   <link href="https://imagebuilder1837.github.io/"/>
-  <updated>2025-11-04T13:04:45.386Z</updated>
+  <updated>2025-11-13T12:31:47.333Z</updated>
   <id>https://imagebuilder1837.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Math Academy 课程编号</title>
+    <link href="https://imagebuilder1837.github.io/2025/11/13/2025-11-13-1/"/>
+    <id>https://imagebuilder1837.github.io/2025/11/13/2025-11-13-1/</id>
+    <published>2025-11-13T12:18:28.000Z</published>
+    <updated>2025-11-13T12:31:47.333Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Math-Academy-课程编号"><a href="#Math-Academy-课程编号" class="headerlink" title="Math Academy 课程编号"></a>Math Academy 课程编号</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Math Academy 里面找了半天没找到直达课程内容的索引，于是脑袋一横写了个小脚本遍历了 MA 1~200 的课程编号，存个档权当索引用了</p><h2 id="课程编号"><a href="#课程编号" class="headerlink" title="课程编号"></a>课程编号</h2><h3 id="Early-Grades"><a href="#Early-Grades" class="headerlink" title="Early Grades"></a>Early Grades</h3><ul><li>4th Grade Math：75</li><li>5th Grade Math：30</li><li>Prealgebra：99</li></ul><h3 id="High-School"><a href="#High-School" class="headerlink" title="High School"></a>High School</h3><h4 id="Traditional"><a href="#Traditional" class="headerlink" title="Traditional"></a>Traditional</h4><ul><li>Algebra I：44、115</li><li>Geometry：49、116、126</li><li>Algebra II：51</li><li>Precalculus：43</li></ul><h4 id="Integrated-Math"><a href="#Integrated-Math" class="headerlink" title="Integrated Math"></a>Integrated Math</h4><ul><li>Integrated Math I：122、132</li><li>Integrated Math II：123、133</li><li>Integrated Math III：124、134</li><li>Precalculus：43</li></ul><h4 id="Integrated-Math-Honors"><a href="#Integrated-Math-Honors" class="headerlink" title="Integrated Math (Honors)"></a>Integrated Math (Honors)</h4><ul><li>Integrated Math I (Honors)：22、127</li><li>Integrated Math II (Honors)：100、128</li><li>Integrated Math III (Honors)：101</li></ul><h3 id="Test-Prep"><a href="#Test-Prep" class="headerlink" title="Test Prep"></a>Test Prep</h3><ul><li>SAT Math Fundamentals：120、141</li><li>ACT Math：121</li></ul><h3 id="AP-Courses"><a href="#AP-Courses" class="headerlink" title="AP Courses"></a>AP Courses</h3><ul><li>AP Calculus AB：24</li><li>AP Calculus BC：21</li></ul><h3 id="Foundations-Series"><a href="#Foundations-Series" class="headerlink" title="Foundations Series"></a>Foundations Series</h3><ul><li>Mathematical Foundations I：113</li><li>Mathematical Foundations II：111</li><li>Mathematical Foundations III：114、136</li></ul><h3 id="University"><a href="#University" class="headerlink" title="University"></a>University</h3><ul><li>Calculus I：105</li><li>Calculus II：106</li><li>Linear Algebra：55</li><li>Multivariable Calculus：54</li><li>Methods of Proof：76</li><li>Discrete Mathematics：109、137</li><li>Probability &amp; Statistics：73、135</li><li>Mathematics For Machine Learning：92、129、145</li><li>Differential Equations：61、149</li><li>Abstract Algebra：59</li></ul><h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><ul><li>AP Physics C: Mechanics：23</li><li>6th Grade Math：31</li><li>7th Grade Math：37</li><li>8th Grade Math：39</li><li>Real Analysis：65</li><li>Graph Theory：66</li><li>Machine Learning I：72</li><li>Complex Analysis：82</li><li>Integrated Math IV：84</li><li>Integrated Math V：85</li><li>Integrated Math VI：86</li><li>Integrated Math VII：87</li><li>1st Grade Math：117</li><li>2nd Grade Math：118</li><li>3rd Grade Math：119</li><li>Introduction to Computer Science I：138</li><li>Introduction to Computer Science II：139</li><li>Machine Learning II：140</li><li>SAT Math Prep：143</li><li>Machine Learning III：144</li><li>Mathematics for Machine Learning I：146</li><li>Mathematics for Machine Learning II：147</li><li>SAT Math Prep V2：148</li></ul><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Other 里面是遍历出来但没在 Courses 里公开的课程，还有意外惊喜说是</p>]]></content>
+    
+    
+    <summary type="html">什么时候把 Machine Learning 端上来急急急</summary>
+    
+    
+    
+    
+    <category term="教育" scheme="https://imagebuilder1837.github.io/tags/%E6%95%99%E8%82%B2/"/>
+    
+  </entry>
   
   <entry>
     <title>有关高中的大致理想</title>
