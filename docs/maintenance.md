@@ -34,12 +34,24 @@ npx hexo server      # 本地预览
 
 - 博客仓库 Dependabot 每月检查常规 npm 版本更新；安全更新 PR 仍可能在月中出现。
   仅可信 Dependabot 的 npm 依赖 PR（含 major 和安全更新）在最新 `main` 上通过必需 CI 后
-  自动合并。更新不会单独发布，需等下一次站点内容、配置或主题指针变更。
+  自动合并。保护规则要求机器人走 PR 和最新基线检查；维护者可以直接推送，实际发布仍在
+  同次运行检查。依赖更新不会单独发布，需等下一次站点内容、配置或主题指针变更。
 - 发文前运行 `git pull --ff-only origin main`，先取得可能已合并的依赖更新；如果自己已有
   未推送提交而无法快进，应先审查差异并正常变基或合并，不要强推。锁文件更新后运行
   `npm ci` 以同步本地依赖，再用 `npx hexo generate && npx hexo server` 本地预览。
   远端会为内容变更重新构建并检查，无需在本地重复整套 CI。
+- 自动合并以最新 `main` 上的 PR CI 为门槛；使用工作流令牌执行的合并未必再次触发
+  `main` 的推送 CI，这不是跳过检查。合并后的依赖可能包含 major 更新：即使 CI 通过，
+  发文前仍应使用拉取后的依赖在本地预览外观与内容。
 - Clover 仓库不启用自动依赖更新；主题推送不会自动更新博客的固定指针。
+- 2026-09-29 已以此前开放的四个 major PR
+  [#7](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/7)、
+  [#8](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/8)、
+  [#9](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/9)、
+  [#10](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/10)
+  验证最新基线 CI 门槛和自动合并；组合后的源码提交 `7ebd324` 也可干净安装、生成并通过
+  主题行为检查。此次仅依赖变更未触发新的 Pages 部署，线上仍为首次切换时的产物，
+  下次内容更新会用已合并的依赖重新生成。
 
 ## 日期元数据的一次性差异
 
