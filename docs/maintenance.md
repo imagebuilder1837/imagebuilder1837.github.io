@@ -18,13 +18,14 @@ npx hexo server      # 本地预览
 ## 发布与回退
 
 - 首次切换已获批准并执行：博客 `main` 现在是正式源码分支，Pages 来源是 GitHub Actions，
-  不再从分支上的静态文件发布。首次 Pages artifact 部署成功，但**尚待维护者人工验收**。
-  仓库变量 `PAGES_RELEASE_ENABLED` 当前为 `false`；验收通过前不得开启日常自动发布。
+  不再从分支上的静态文件发布。首次 Pages artifact 部署成功，维护者已人工验收通过。
+  验收后已恢复仓库变量 `PAGES_RELEASE_ENABLED=true`；今后 `main` 的新推送经过同次构建
+  与行为检查后自动发布，PR、其他分支和主题推送不能直接部署。
 - 源码已移除 `hexo deploy` 的脚本、插件和仓库目标。旧产物保存在
   `archive/legacy-pages-2026-09-29`（`fc6874d0`）。不要向现在的源码 `main` 推送产物。
 - `pre-migration-baseline`（`fc6874d0`）是**已发布的静态产物**，不是可运行 `npm ci` 的源码。
   可重建的源码在 `main`；不要从产物 tag 检出后尝试重建。
-- 真实切换记录、待验收项及人工回退步骤见 [Pages 切换与回退](./pages-cutover.md)。
+- 真实切换记录、人工验收及回退步骤见 [Pages 切换与回退](./pages-cutover.md)。
   如需恢复旧产物，先保持发布开关关闭，再将 Pages 来源切回归档产物分支，
   核对 `github-pages` 环境分支限制；不得让新旧发布路径同时处于活动状态。
 

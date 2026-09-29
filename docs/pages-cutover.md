@@ -1,4 +1,4 @@
-# Pages 切换与回退（首次部署成功，待维护者验收）
+# Pages 切换与回退
 
 关联：[准备工作 #4](https://github.com/imagebuilder1837/imagebuilder1837.github.io/issues/4)；
 [首次切换 #5](https://github.com/imagebuilder1837/imagebuilder1837.github.io/issues/5)。
@@ -27,7 +27,7 @@
   `npm ci`、清理、生成和行为检查；检查失败不发布。仅该 job 有 `pages: write` 和
   `id-token: write`，使用 `github-pages` environment（当前仅允许 `main`）。
 - 不使用 `pull_request_target`、PR 提供的凭证或主题仓库远程触发。首次部署后
-  `PAGES_RELEASE_ENABLED` 已设回 `false`；维护者人工验收通过前不得重新开启。
+  `PAGES_RELEASE_ENABLED` 曾设回 `false`；维护者人工验收通过后才恢复为 `true`。
 
 | 事件 | 主题样例 CI | 博客只读 CI | 博客 Pages 发布 job（开关关闭 / 开启） |
 | --- | --- | --- | --- |
@@ -82,23 +82,24 @@
    [手工触发首次 Pages artifact 部署](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36539074122)：
    清理、构建、主题和博客行为检查、artifact 上传与部署全部通过。
    `github-pages` 部署记录 `6729523246` 对应上述获批源码 SHA，状态为 `success`。
-5. **首次部署成功后已将发布变量设为 `false`**；线上内容尚待维护者人工验收。
-   在维护者确认前，`main` 的后续推送不会自动发布；不要误以为 CI 通过就已更新现网。
+5. **首次部署成功后将发布变量设为 `false`**，等待维护者人工验收；期间文档提交
+   `87b2c5d` 的[只读 CI 通过](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36539466719)，
+   [发布 job 跳过](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36539466869)，
+   线上仍是首次部署的 `7d368fb` 产物。不要误以为 CI 通过就已更新现网。
 
 这些步骤不是原子操作：切换时允许了短暂的发布空窗，没有让两条活动路径同时写线上。
 GitHub 返回的部署成功只说明 artifact 已发布，**不等于维护者已确认读者体验**。
 
-## 待维护者人工验收
+## 维护者人工验收
 
-维护者人工查看首页、既有文章链接、导航、站内资源和 RSS，并留意
-首次生成时文章与 Feed 隐式更新时间回退为发布日期的已接受差异（详见维护手册）。
-不要求自动逐项检查全部旧链接，也不以外部网站的可达性作为门槛。
+2026-09-29：维护者在获提示自行检查线上首页、旧文章链接、导航、站内资源及 RSS 后
+回复“通过”。这是维护者的人工验收结论；未运行全部旧链接的自动逐项探测，
+也不以外部网站的可达性作为门槛。首次生成时文章与 Feed 隐式更新时间回退为
+发布日期，是已接受的预期差异（详见维护手册）。
 
-- 回复“通过”：记录人工验收结果，核对当前 Pages 来源仍为 Actions、发布变量仍为
-  `false` 后将变量设为 `true`，此后 `main` 的**未来推送**才恢复日常自动发布；
-  单纯启用变量不会补跑此前推送。然后记录最终运行状态。
-- 指出问题：保持变量为 `false`，记录异常，由维护者决定修复还是按下节手工回退。
-  未收到验收结果前，#5 不算完成。
+验收时核对 Pages 来源仍为 Actions、最近成功部署仍为 `7d368fb`、发布变量仍为 `false`。
+验收记录提交并通过只读 CI 后，发布变量恢复为 `true`；此后 `main` 的**未来推送**
+通过同次构建与检查后自动发布，启用变量本身不会补跑此前被跳过的推送。
 
 ## 人工回退
 
