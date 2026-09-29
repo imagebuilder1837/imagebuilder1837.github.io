@@ -1,0 +1,3 @@
+[submodule "themes/clover"]
+	path = themes/clover
+	url = https://github.com/imagebuilder1837/hexo-theme-clover.git
