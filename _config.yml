@@ -98,6 +98,26 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: clover
+# Site-owned Clover identity and navigation (merged with the theme defaults).
+theme_config:
+  nav:
+    title: Image Builder
+  favicon: /images/avatar.ico
+  social:
+    Bangumi: https://bgm.tv/user/imagebuilder183
+    GitHub: https://github.com/imagebuilder1837
+    Zhihu: https://www.zhihu.com/people/imagebuilder1837
+    bilibili: https://space.bilibili.com/366719977
+    RSS: /atom.xml
+  # Preserve the existing blog icon order after Hexo merges social maps.
+  social_order: [Bangumi, GitHub, Zhihu, bilibili, RSS]
+  mail: imagebuilder1837@outlook.com
+  copyright: This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+  menu:
+    Home: /
+    Archive: /archives
+    Tag: /tags
+    About: /about
 plugins:
   hexo-generator-feed
 # Feed Atom
