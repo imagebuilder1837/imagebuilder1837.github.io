@@ -5,7 +5,7 @@
 ```bash
 git clone git@github.com:imagebuilder1837/imagebuilder1837.github.io.git
 cd imagebuilder1837.github.io
-git checkout source/bootstrap
+git checkout main
 git submodule update --init
 npm ci
 npx hexo generate    # 产物输出到 public/
@@ -15,17 +15,18 @@ npx hexo server      # 本地预览
 依赖以 `package-lock.json` 为准（`npm ci` 严格按锁文件安装）。请保持锁定版本，
 仅针对具体问题升级；清理候选无用依赖前先确认无引用，删除后对比构建产物一致。
 
-## 发布准备与回退
+## 发布与回退
 
-- 当前 Pages 仍以 legacy 模式从旧 `main` 根目录提供站点；`source/bootstrap` 是待切换源码。
-  在获得首次切换的**另行明确批准**前，不更改博客默认分支、Pages 来源或发布开关，不执行部署。
-- 源码已移除 `hexo deploy` 的脚本、插件和仓库目标。准备期间现网保持原状；如必须更新现网，
-  需要另行决定临时操作，不能从待切换源码向旧 `main` 推送产物。
+- 首次切换已获批准并执行：博客 `main` 现在是正式源码分支，Pages 来源是 GitHub Actions，
+  不再从分支上的静态文件发布。首次 Pages artifact 部署成功，但**尚待维护者人工验收**。
+  仓库变量 `PAGES_RELEASE_ENABLED` 当前为 `false`；验收通过前不得开启日常自动发布。
+- 源码已移除 `hexo deploy` 的脚本、插件和仓库目标。旧产物保存在
+  `archive/legacy-pages-2026-09-29`（`fc6874d0`）。不要向现在的源码 `main` 推送产物。
 - `pre-migration-baseline`（`fc6874d0`）是**已发布的静态产物**，不是可运行 `npm ci` 的源码。
-  可重建的源码在 `source/bootstrap` 历史中；不要从产物 tag 检出后尝试重建。
-- 已同意的首次切换和回退顺序见 [Pages 切换方案](./pages-cutover.md)。只有正式切换获批后，
-  才能将旧产物保存在独立分支，并把已经验证的源码快进至 `main`；失败时先停用 Actions 发布，
-  再按方案将 Pages 切回旧产物分支。绝不向已变为源码的 `main` 执行旧部署命令。
+  可重建的源码在 `main`；不要从产物 tag 检出后尝试重建。
+- 真实切换记录、待验收项及人工回退步骤见 [Pages 切换与回退](./pages-cutover.md)。
+  如需恢复旧产物，先保持发布开关关闭，再将 Pages 来源切回归档产物分支，
+  核对 `github-pages` 环境分支限制；不得让新旧发布路径同时处于活动状态。
 
 ## 日期元数据的一次性差异
 

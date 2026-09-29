@@ -1,4 +1,4 @@
-# Pages 切换方案（准备阶段，尚未获准上线）
+# Pages 切换与回退（首次部署成功，待维护者验收）
 
 关联：[准备工作 #4](https://github.com/imagebuilder1837/imagebuilder1837.github.io/issues/4)；
 [首次切换 #5](https://github.com/imagebuilder1837/imagebuilder1837.github.io/issues/5)。
@@ -13,9 +13,10 @@
 
 ## 现状与边界
 
-- 博客 `main` 是旧静态产物，Pages 来源为 legacy `main` `/`；
-  `pre-migration-baseline` 指向产物提交 `fc6874d0aec3d978218cdb3252d7aefdd13e9ff2`，不是源码。
-  `source/bootstrap` 从该提交分出，是待验证的源码。准备阶段不推动博客 `main`，不改 Pages 来源。
+- 博客 `main` 现为正式源码分支，Pages 发布来源已切为 GitHub Actions。
+  旧静态产物在 `archive/legacy-pages-2026-09-29`，提交为
+  `fc6874d0aec3d978218cdb3252d7aefdd13e9ff2`；同一提交的 `pre-migration-baseline`
+  是产物 tag，不是源码。`source/bootstrap` 保留作为切换前源码分支。
 - 主题通用维护线改名为主题仓库的 `main`；主题工作流只在主题仓库验证虚构样例。
   博客通过固定的公开 HTTPS submodule 提交获取主题，主题推送不会更新博客指针或触发博客发布。
 - 博客 CI 在分支推送和 PR 上用只读权限检出固定主题、`npm ci`、清理、构建、运行
@@ -25,10 +26,10 @@
   `true`；变量未设置时不会启动 job。发布 job 在上传 Pages artifact 之前，同样执行
   `npm ci`、清理、生成和行为检查；检查失败不发布。仅该 job 有 `pages: write` 和
   `id-token: write`，使用 `github-pages` environment（当前仅允许 `main`）。
-- 不使用 `pull_request_target`、PR 提供的凭证或主题仓库远程触发。没有首次切换批准时，
-  **不得设置/开启** `PAGES_RELEASE_ENABLED`；工作流的存在本身不授权部署。
+- 不使用 `pull_request_target`、PR 提供的凭证或主题仓库远程触发。首次部署后
+  `PAGES_RELEASE_ENABLED` 已设回 `false`；维护者人工验收通过前不得重新开启。
 
-| 事件 | 主题样例 CI | 博客只读 CI | 博客 Pages 发布 job（开关关闭 / 切换后开启） |
+| 事件 | 主题样例 CI | 博客只读 CI | 博客 Pages 发布 job（开关关闭 / 开启） |
 | --- | --- | --- | --- |
 | 主题分支推送或 PR | 运行 | 不触发 | 不触发 |
 | 博客非 `main` 推送或 PR | 不触发 | 运行 | 不触发 / 不触发 |
@@ -36,15 +37,15 @@
 | 博客人工运行发布工作流，ref 为非 `main` | 不触发 | 不触发 | 跳过 / 跳过 |
 | 博客人工运行发布工作流，ref 为 `main` | 不触发 | 不触发 | 跳过 / 检查通过后发布 |
 
-## #4 交付证据（供首次切换前复核）
+## #4 准备证据（切换前已复核）
 
-- 核对主题与博客远端 CI 的绿色运行、博客固定主题 SHA、锁文件安装与构建结果；
+- 切换前核对主题与博客远端 CI 的绿色运行、博客固定主题 SHA、锁文件安装与构建结果；
   保存工作流 run URL 及源码提交 SHA，**不以本地 node_modules 为通过证据**。
 - 比较旧产物与候选产物的关键路由：首页、文章固定链接、归档、分类、标签、关于页、
   `atom.xml` 和引用资源。已知文章隐式更新时间从文件 mtime 回退为发布日期，
   这是一项已接受的一次性 Feed/HTML 元数据差异，不能要求全站字节级相同。
-- 检查本表对应的触发条件、job `if`、权限及 `github-pages` 环境分支策略；
-  审阅仓库变量仍不存在或非 `true`，Pages 仍为 legacy `main` `/`，博客默认分支仍为 `main`。
+- 切换前检查本表对应的触发条件、job `if`、权限及 `github-pages` 环境分支策略；
+  确认当时仓库变量不存在或非 `true`，Pages 是 legacy `main` `/`，博客默认分支是 `main`。
 - 不通过生产环境试部署来验证门禁；外站链接可用性和视觉截图不作为自动发布门槛。
 
 ### 本次准备的核验记录（2026-09-29）
@@ -65,40 +66,54 @@
   都不满足发布条件；没有进行真实部署预演。
 - 核查时博客默认分支仍为 `main`（旧静态产物 `fc6874d0`），Pages 仍为
   legacy `main` `/`，`PAGES_RELEASE_ENABLED` 未设置；`github-pages` environment
-  已限制为 `main`。切换执行前须**重新核对**，不能将这些快照视为永久保证。
+  已限制为 `main`。切换执行时已重新核对这些条件；本段只记录切换前快照。
 
-## #5 才能执行：首次切换（必须另行明确批准）
+## 首次切换记录（2026-09-29）
 
-切换前冻结向旧站点的手工发布；再次确认远端 CI、待发布源码的确切提交、Pages 来源、
-变量状态和旧 `main` SHA。任何前提不符就停止，不能强推或覆盖旧历史。
+1. 复核获批候选源码 `7d368fb3e0421ca6bbc80cbfcf11d0c71cdaa169` 的
+   [分支 CI](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36538758229)；
+   确认旧 `main` 为 `fc6874d0`、Pages 来源为 legacy、发布变量不存在。
+2. 将旧 `main` 的**实际当前提交** `fc6874d0` 保存在远端
+   `archive/legacy-pages-2026-09-29`，并核对归档分支的 SHA。没有改写历史。
+3. 先将 Pages 来源切为 GitHub Actions，才将获批源码快进至 `main`；
+   [这次推送的发布 job 因开关关闭而跳过](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36538909535)，
+   [只读构建 CI 通过](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36538909568)。
+4. 确认 Pages 已是 Actions 来源后开启仓库变量，
+   [手工触发首次 Pages artifact 部署](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36539074122)：
+   清理、构建、主题和博客行为检查、artifact 上传与部署全部通过。
+   `github-pages` 部署记录 `6729523246` 对应上述获批源码 SHA，状态为 `success`。
+5. **首次部署成功后已将发布变量设为 `false`**；线上内容尚待维护者人工验收。
+   在维护者确认前，`main` 的后续推送不会自动发布；不要误以为 CI 通过就已更新现网。
 
-1. 将旧 `main` 的**当前**提交保存到独立的旧产物归档分支，并确认远端存在。
-   不以旧 tag 替代当前产物；若旧站点在准备期变化，保存实际最新的产物 SHA。
-2. 在 Pages 设置中将发布来源从 legacy 分支改为 **GitHub Actions**。
-   先停止旧 Pages 分支路径，再改变 `main`，不要让 legacy 把源码当产物发布。
-3. 确认旧 `main` 是已验证的 `source/bootstrap` 提交的祖先；将该**确切已验证提交**
-   快进至博客 `main`，不强推、不合并旧产物到源码，也不改动/自动跟踪主题指针。
-   `main` 保持仓库默认分支；旧源码分支可以暂时保留用于审计。
-4. 确认 Pages 已是 Actions 来源、旧发布入口已从新源码移除、`main` 指向已验证提交；
-   然后才把仓库变量 `PAGES_RELEASE_ENABLED` 设为 `true`。手工在博客 `main` 上运行一次
-   `pages.yml`，确认发布 job 构建和检查通过、上传并部署 Pages artifact。
-5. 核对工作流部署 SHA 与批准的 SHA、Pages 状态及在线首页、旧文章链接、站内资源、
-   归档/分类/标签、关于页和 Atom Feed；记录预期的更新时间元数据变化与异常。
-   后续仅 `main` 推送自动触发发布，发布流程仍须在同次运行通过检查。
+这些步骤不是原子操作：切换时允许了短暂的发布空窗，没有让两条活动路径同时写线上。
+GitHub 返回的部署成功只说明 artifact 已发布，**不等于维护者已确认读者体验**。
 
-这些步骤**不是原子操作**：允许旧路径停用到新发布成功之间有短暂空窗，
-不允许两套活动发布路径同时写线上。不要以本节作为预先授予切换权限。
+## 待维护者人工验收
+
+维护者人工查看首页、既有文章链接、导航、站内资源和 RSS，并留意
+首次生成时文章与 Feed 隐式更新时间回退为发布日期的已接受差异（详见维护手册）。
+不要求自动逐项检查全部旧链接，也不以外部网站的可达性作为门槛。
+
+- 回复“通过”：记录人工验收结果，核对当前 Pages 来源仍为 Actions、发布变量仍为
+  `false` 后将变量设为 `true`，此后 `main` 的**未来推送**才恢复日常自动发布；
+  单纯启用变量不会补跑此前推送。然后记录最终运行状态。
+- 指出问题：保持变量为 `false`，记录异常，由维护者决定修复还是按下节手工回退。
+  未收到验收结果前，#5 不算完成。
 
 ## 人工回退
 
-首次发布失败、关键线上检查不通过或来源状态异常时，暂停继续推进源码：
+人工检查不通过或来源状态异常时，暂停继续推进源码；是否回退由维护者决定：
 
-1. 把 `PAGES_RELEASE_ENABLED` 改为 `false`，确认无待运行的 Pages 发布 job；
+1. 保持 `PAGES_RELEASE_ENABLED` 为 `false`，确认无待运行的 Pages 发布 job；
    必要时取消正在运行的发布 job，避免回退后仍有 Actions 发布。
-2. 由维护者将 Pages 来源手工改回 legacy，指向第一步保存的**旧产物归档分支** `/`，
-   等待 Pages 完成构建并检查首页、旧链接、资源和 Feed。不要将产物推回源码 `main`。
-3. 记录回退后的 Pages 设置、归档 SHA、失败工作流及线上检查结果。修复后重新申请
-   首次切换批准；不要保持两条活动发布路径。
+2. 由维护者将 Pages 来源手工改回 legacy，指向
+   **`archive/legacy-pages-2026-09-29` 的根目录**。检查 `github-pages` 环境的部署
+   分支规则：当前只允许 `main`；如 GitHub 没有自动加入归档分支，仅在回退时为此归档
+   分支添加精确许可。等待旧产物分支重新发布成功，再检查首页、旧链接、资源和 Feed。
+   不要将产物推回源码 `main`，也不要为回退预先放宽环境规则。
+3. 记录回退后的 Pages 设置、环境规则、归档 SHA、失败工作流及线上检查结果。
+   修复后重新申请再次切换的批准；切回 Actions 时恢复环境规则为仅允许 `main`。
+   不要保持两条活动发布路径。
 
 正常运行之后如需回退单次源码变更，应在源码 `main` 上回滚该变更，让合格构建重新
 发布；不要改写公开历史或恢复 `hexo deploy`。
