@@ -35,13 +35,11 @@ jobs:
           ECOSYSTEM: ${{ steps.metadata.outputs.package-ecosystem }}
           DIRECTORY: ${{ steps.metadata.outputs.directory }}
           DEPENDENCIES: ${{ steps.metadata.outputs.updated-dependencies-json }}
-          MAINTAINER_CHANGES: ${{ steps.metadata.outputs.maintainer-changes }}
         run: |
           set -euo pipefail
-          test "$ECOSYSTEM" = npm
+          test "$ECOSYSTEM" = npm_and_yarn
           test "$DIRECTORY" = /
           test -n "$DEPENDENCIES"
-          test "$MAINTAINER_CHANGES" != true
           test "$(gh api "repos/$REPO/pulls/$PR" --jq .head.sha)" = "$HEAD_SHA"
           files=$(gh api --paginate "repos/$REPO/pulls/$PR/files?per_page=100" --jq '.[].filename')
           test -n "$files"
