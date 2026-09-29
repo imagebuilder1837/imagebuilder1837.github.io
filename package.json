@@ -6,7 +6,6 @@
     "build": "hexo generate",
     "test:clover": "node themes/clover/test/integration.js && node test/clover-blog.js",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
     "server": "hexo server"
   },
   "hexo": {
@@ -14,7 +13,6 @@
   },
   "dependencies": {
     "hexo": "^6.3.0",
-    "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-feed": "^3.0.0",

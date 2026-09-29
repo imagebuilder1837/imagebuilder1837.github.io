@@ -125,10 +125,3 @@ feed:
   type: atom
   path: atom.xml
   limit: 20
-
-# Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: git@github.com:imagebuilder1837/imagebuilder1837.github.io.git
-  branch: main

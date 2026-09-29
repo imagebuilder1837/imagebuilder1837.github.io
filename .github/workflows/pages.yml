@@ -1,0 +1,48 @@
+name: Publish Pages artifact
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# No release job runs until the maintainer explicitly enables this repository variable
+# during the separately approved cutover. In particular, PRs never run this workflow.
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.repository == 'imagebuilder1837/imagebuilder1837.github.io' &&
+      github.ref == 'refs/heads/main' &&
+      vars.PAGES_RELEASE_ENABLED == 'true' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run clean && npm run build && npm run test:clover
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v4
