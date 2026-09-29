@@ -1,0 +1,61 @@
+name: Dependabot npm auto-merge
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  enable-auto-merge:
+    if: >-
+      github.repository == 'imagebuilder1837/imagebuilder1837.github.io' &&
+      vars.DEPENDABOT_AUTOMERGE_ENABLED == 'true' &&
+      github.event.pull_request.user.id == 49699333 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.base.ref == 'main' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # This privileged workflow never checks out or executes the PR's code.
+      # fetch-metadata verifies the Dependabot author and signed commits.
+      - id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3
+        with:
+          github-token: ${{ github.token }}
+      - name: Verify npm update scope and unchanged PR head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          ECOSYSTEM: ${{ steps.metadata.outputs.package-ecosystem }}
+          DIRECTORY: ${{ steps.metadata.outputs.directory }}
+          DEPENDENCIES: ${{ steps.metadata.outputs.updated-dependencies-json }}
+          MAINTAINER_CHANGES: ${{ steps.metadata.outputs.maintainer-changes }}
+        run: |
+          set -euo pipefail
+          test "$ECOSYSTEM" = npm
+          test "$DIRECTORY" = /
+          test -n "$DEPENDENCIES"
+          test "$MAINTAINER_CHANGES" != true
+          test "$(gh api "repos/$REPO/pulls/$PR" --jq .head.sha)" = "$HEAD_SHA"
+          files=$(gh api --paginate "repos/$REPO/pulls/$PR/files?per_page=100" --jq '.[].filename')
+          test -n "$files"
+          while IFS= read -r file; do
+            case "$file" in
+              package.json|package-lock.json) ;;
+              *) echo "Non-npm file in PR: $file" >&2; exit 1 ;;
+            esac
+          done <<< "$files"
+      - name: Enable auto-merge after required checks pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: gh pr merge "$PR" --repo "$REPO" --auto --squash --match-head-commit "$HEAD_SHA"

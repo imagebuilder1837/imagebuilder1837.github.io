@@ -19,8 +19,9 @@ npx hexo server      # 本地预览
 
 - 首次切换已获批准并执行：博客 `main` 现在是正式源码分支，Pages 来源是 GitHub Actions，
   不再从分支上的静态文件发布。首次 Pages artifact 部署成功，维护者已人工验收通过。
-  验收后已恢复仓库变量 `PAGES_RELEASE_ENABLED=true`；今后 `main` 的新推送经过同次构建
-  与行为检查后自动发布，PR、其他分支和主题推送不能直接部署。
+  验收后已恢复仓库变量 `PAGES_RELEASE_ENABLED=true`；`main` 上文章／页面、站点配置或
+  固定主题指针的变更才自动发布，并在发布前执行干净安装、构建和主题行为检查。
+  纯依赖、文档及 CI 变更只运行只读 CI，不更新线上产物；PR、其他分支和主题推送不能直接部署。
 - 源码已移除 `hexo deploy` 的脚本、插件和仓库目标。旧产物保存在
   `archive/legacy-pages-2026-09-29`（`fc6874d0`）。不要向现在的源码 `main` 推送产物。
 - `pre-migration-baseline`（`fc6874d0`）是**已发布的静态产物**，不是可运行 `npm ci` 的源码。
@@ -28,6 +29,17 @@ npx hexo server      # 本地预览
 - 真实切换记录、人工验收及回退步骤见 [Pages 切换与回退](./pages-cutover.md)。
   如需恢复旧产物，先保持发布开关关闭，再将 Pages 来源切回归档产物分支，
   核对 `github-pages` 环境分支限制；不得让新旧发布路径同时处于活动状态。
+
+## 依赖更新与发文
+
+- 博客仓库 Dependabot 每月检查常规 npm 版本更新；安全更新 PR 仍可能在月中出现。
+  仅可信 Dependabot 的 npm 依赖 PR（含 major 和安全更新）在最新 `main` 上通过必需 CI 后
+  自动合并。更新不会单独发布，需等下一次站点内容、配置或主题指针变更。
+- 发文前运行 `git pull --ff-only origin main`，先取得可能已合并的依赖更新；如果自己已有
+  未推送提交而无法快进，应先审查差异并正常变基或合并，不要强推。锁文件更新后运行
+  `npm ci` 以同步本地依赖，再用 `npx hexo generate && npx hexo server` 本地预览。
+  远端会为内容变更重新构建并检查，无需在本地重复整套 CI。
+- Clover 仓库不启用自动依赖更新；主题推送不会自动更新博客的固定指针。
 
 ## 日期元数据的一次性差异
 

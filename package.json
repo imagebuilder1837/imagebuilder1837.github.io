@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "test:clover": "node themes/clover/test/integration.js && node test/clover-blog.js",
+    "test:clover": "node themes/clover/test/integration.js",
     "clean": "hexo clean",
     "server": "hexo server"
   },

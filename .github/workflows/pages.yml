@@ -3,6 +3,12 @@ name: Publish Pages artifact
 on:
   push:
     branches: [main]
+    # Dependency-only, documentation, and CI changes are checked but not published.
+    # A later content/config/theme-pointer change builds with the latest lockfile.
+    paths:
+      - 'source/**'
+      - '_config.yml'
+      - 'themes/clover'
   workflow_dispatch:
 
 # No release job runs until the maintainer explicitly enables this repository variable
