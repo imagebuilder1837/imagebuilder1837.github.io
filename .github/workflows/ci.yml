@@ -20,4 +20,4 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
-      - run: npm run clean && npm run build && npm run test:clover
+      - run: npm run clean && npm run build && npm run test

@@ -44,6 +44,9 @@ npx hexo server      # 本地预览
   `main` 的推送 CI，这不是跳过检查。合并后的依赖可能包含 major 更新：即使 CI 通过，
   发文前仍应使用拉取后的依赖在本地预览外观与内容。
 - Clover 仓库不启用自动依赖更新；主题推送不会自动更新博客的固定指针。
+- Clover 的集成测试由博客层承担：`npm test`（`test/integration.js`）用博客已安装的依赖
+  在临时站点上验证首页筛选、导航与页脚的社交链接排序和基础路由；主题仓库不携带测试或
+  CI。测试要求 `themes/clover` 子模块已检出。
 - 2026-09-29 已以此前开放的四个 major PR
   [#7](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/7)、
   [#8](https://github.com/imagebuilder1837/imagebuilder1837.github.io/pull/8)、
