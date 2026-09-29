@@ -40,6 +40,26 @@
   审阅仓库变量仍不存在或非 `true`，Pages 仍为 legacy `main` `/`，博客默认分支仍为 `main`。
 - 不通过生产环境试部署来验证门禁；外站链接可用性和视觉截图不作为自动发布门槛。
 
+### 本次准备的核验记录（2026-09-29）
+
+- 主题固定提交 `5a77a5a83cbca440c96d5b4a50b9b7f810a4064c` 已先推送；
+  主题 `main` [样例构建与 13 组筛选检查通过](https://github.com/imagebuilder1837/hexo-theme-clover/actions/runs/36537634979)。
+  主题默认分支现在是 `main`，旧 `master` 仍保留。
+- 博客源码提交 `cb90f97f434a8b94a61b070780c323633080b4fd` 的
+  [只读分支 CI 通过](https://github.com/imagebuilder1837/imagebuilder1837.github.io/actions/runs/36537716489)：
+  `npm ci`、Hexo 清理及构建、同一组筛选检查与博客输出检查（38 篇文章、88 个 HTML 页面）。
+- 与旧 `main` 的静态文件列表比对：旧 66 个 HTML 路由和 73 个 CSS/图片/字体/JS
+  资源文件在候选产物中均存在；候选产物新增 22 个标签页。新旧 Feed 均有 20 个条目。
+  这只是路径和文件存在性核对，不能替代 #5 的线上访问与视觉检查；
+  更新时间元数据的预期差异见[维护手册](./maintenance.md#日期元数据的一次性差异)。
+- 发布工作流仅订阅博客 `main` 推送和人工触发；独立 CI 订阅分支与 PR、权限只有
+  `contents: read`。发布 job 同时检查仓库、`main` ref、显式开启变量和事件类型，
+  在通过构建检查前不会上传或部署 artifact。已按上表核对 PR、普通分支、开关关闭时
+  都不满足发布条件；没有进行真实部署预演。
+- 核查时博客默认分支仍为 `main`（旧静态产物 `fc6874d0`），Pages 仍为
+  legacy `main` `/`，`PAGES_RELEASE_ENABLED` 未设置；`github-pages` environment
+  已限制为 `main`。切换执行前须**重新核对**，不能将这些快照视为永久保证。
+
 ## #5 才能执行：首次切换（必须另行明确批准）
 
 切换前冻结向旧站点的手工发布；再次确认远端 CI、待发布源码的确切提交、Pages 来源、
