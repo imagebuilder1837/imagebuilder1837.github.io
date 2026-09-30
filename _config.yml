@@ -4,11 +4,9 @@
 
 # Site
 title: Image Builder
-subtitle: Image Builder's blog
-description: Image Builder's blog
-keywords: 编程 杂谈 动画 游戏 教育
+description: Image Builder 的个人博客，记录技术实践、ACGN 观后感与教育、社会议题随想，也收录译文、马前卒课程转写及转载。
 author: imagebuilder1837
-language: default
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -82,7 +80,7 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'date'
+updated_option: 'empty'
 
 # Pagination
 ## Set per_page to 0 to disable pagination

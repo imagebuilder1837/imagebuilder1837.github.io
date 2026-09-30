@@ -1,0 +1,52 @@
+'use strict';
+
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { spawnSync } = require('node:child_process');
+const yaml = require('js-yaml');
+
+const site = path.resolve(__dirname, '..', '..');
+const fixture = path.join(site, 'test', 'fixture');
+const modules = path.join(site, 'node_modules');
+const theme = path.join(site, 'themes', 'clover');
+const generateScript = `
+const Hexo = require('hexo');
+const instance = new Hexo(process.cwd(), { silent: true });
+instance.init()
+  .then(() => instance.call('generate', { bail: true }))
+  .then(() => instance.exit())
+  .catch(error => { console.error(error); process.exit(1); });
+`;
+
+// All integration tests observe Hexo's generated routes, not private helpers.
+// The temporary site never cleans or writes the real blog's public directory.
+function withSite({ config = {}, files = {}, feedPlugin = true } = {}, verify) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'clover-example-'));
+  try {
+    fs.cpSync(fixture, dir, { recursive: true });
+    fs.symlinkSync(modules, path.join(dir, 'node_modules'), 'dir');
+    fs.mkdirSync(path.join(dir, 'themes'));
+    fs.symlinkSync(theme, path.join(dir, 'themes', 'clover'), 'dir');
+    const sitePkg = JSON.parse(fs.readFileSync(path.join(site, 'package.json'), 'utf8'));
+    const dependencies = { ...sitePkg.dependencies };
+    if (!feedPlugin) delete dependencies['hexo-generator-feed'];
+    fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({
+      name: 'clover-example-site', private: true, hexo: sitePkg.hexo || {},
+      dependencies, devDependencies: sitePkg.devDependencies
+    }));
+    const fixtureConfig = yaml.load(fs.readFileSync(path.join(dir, '_config.yml'), 'utf8'));
+    fs.writeFileSync(path.join(dir, '_config.yml'), yaml.dump({ ...fixtureConfig, ...config }));
+    for (const [filename, content] of Object.entries(files)) {
+      const target = path.join(dir, filename);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content);
+    }
+    const result = spawnSync(process.execPath, ['-e', generateScript], { cwd: dir, encoding: 'utf8' });
+    return verify(dir, result);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+module.exports = { withSite };

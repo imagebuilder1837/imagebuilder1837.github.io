@@ -5,26 +5,9 @@
 // node test/integration.js
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const os = require('node:os');
 const path = require('node:path');
-const { spawnSync } = require('node:child_process');
-
-const theme = path.resolve(__dirname, '..', 'themes', 'clover');
-const fixture = path.join(__dirname, 'fixture');
-const site = process.cwd();
-const modules = path.join(site, 'node_modules');
-assert.ok(fs.existsSync(modules), 'Run from a site with Hexo installed');
-
-// The hexo CLI resolves its base directory through the node_modules symlink
-// back to this site, so drive the Hexo API directly with an explicit base.
-const generateScript = `
-const Hexo = require('hexo');
-const instance = new Hexo(process.cwd(), { silent: true });
-instance.init()
-  .then(() => instance.call('generate', { bail: true }))
-  .then(() => instance.exit())
-  .catch(error => { console.error(error); process.exit(1); });
-`;
+const yaml = require('js-yaml');
+const { withSite } = require('./helpers/site');
 
 const all = ['Plain story', 'Tagged story', 'Category story', 'Both story', 'Blocked story', 'Ignored story'];
 const cases = [
@@ -52,31 +35,8 @@ const socialLines = [
 ];
 
 for (const [label, override, expected] of cases) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'clover-example-'));
-  try {
-    fs.cpSync(fixture, dir, {
-      recursive: true,
-      filter: source => !['node_modules', 'public', 'db.json'].includes(path.basename(source))
-    });
-    fs.symlinkSync(modules, path.join(dir, 'node_modules'), 'dir');
-    fs.mkdirSync(path.join(dir, 'themes'));
-    fs.symlinkSync(theme, path.join(dir, 'themes', 'clover'), 'dir');
-    // Hexo discovers plugins from the site manifest (and only enables them
-    // when a `hexo` field exists); derive it from the blog's real package.json
-    // so the generated site loads the same renderers.
-    const sitePkg = JSON.parse(fs.readFileSync(path.join(site, 'package.json'), 'utf8'));
-    fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({
-      name: 'clover-example-site',
-      private: true,
-      hexo: sitePkg.hexo || {},
-      dependencies: sitePkg.dependencies,
-      devDependencies: sitePkg.devDependencies
-    }, null, 2));
-    const themeConfig = socialLines.concat(override ? [`  ${override}`] : []);
-    fs.appendFileSync(path.join(dir, '_config.yml'), `\ntheme_config:\n${themeConfig.join('\n')}\n`);
-    const result = spawnSync(process.execPath, ['-e', generateScript], {
-      cwd: dir, encoding: 'utf8'
-    });
+  const themeConfig = yaml.load(socialLines.concat(override ? [`  ${override}`] : []).join('\n'));
+  withSite({ config: { theme_config: themeConfig } }, (dir, result) => {
     assert.equal(result.status, 0, `${label}: ${result.stdout}\n${result.stderr}`);
     const html = fs.readFileSync(path.join(dir, 'public', 'index.html'), 'utf8');
     const found = [...html.matchAll(/<a href="[^"]+" class="title">([^<]+)<\/a>/g)]
@@ -102,7 +62,5 @@ for (const [label, override, expected] of cases) {
       assert.ok(categoryPage.includes('Category story') && !categoryPage.includes('Tagged story'), 'category page content');
     }
     process.stdout.write(`ok ${label}\n`);
-  } finally {
-    fs.rmSync(dir, { recursive: true, force: true });
-  }
+  });
 }
