@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "test": "node test/integration.js && node test/metadata.js && node test/verification.js && node test/blog-metadata.js",
+    "test": "node test/integration.js && node test/metadata.js && node test/browsing.js && node test/verification.js && node test/blog-metadata.js && node test/blog-browsing.js",
     "clean": "hexo clean",
     "server": "hexo server"
   },
@@ -23,6 +23,8 @@
     "hexo-renderer-marked": "^7.0.1",
     "hexo-renderer-sass": "^0.5.0",
     "hexo-server": "^3.0.0",
-    "object-assign": "^4.1.1"
+    "image-size": "^2.0.4",
+    "object-assign": "^4.1.1",
+    "parse5": "^7.3.0"
   }
 }

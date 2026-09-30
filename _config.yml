@@ -43,12 +43,13 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: false
-  line_number: true
+  enable: true
+  line_number: false
   auto_detect: false
   tab_replace: ''
-  wrap: true
-  hljs: false
+  wrap: false
+  hljs: true
+  strip_indent: false
 prismjs:
   enable: false
   preprocess: true
@@ -61,8 +62,14 @@ prismjs:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 0
+  per_page: 12
   order_by: -date
+
+# Keep these indexes complete independently of home/global pagination.
+archive_generator:
+  per_page: 0
+category_generator:
+  per_page: 0
 
 # Category & Tag
 default_category: uncategorized
@@ -112,9 +119,11 @@ theme_config:
   social_order: [Bangumi, GitHub, Zhihu, bilibili, RSS]
   mail: imagebuilder1837@outlook.com
   copyright: This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+  code_copy: true
   menu:
     Home: /
     Archive: /archives
+    Category: /categories
     Tag: /tags
     About: /about
 plugins:

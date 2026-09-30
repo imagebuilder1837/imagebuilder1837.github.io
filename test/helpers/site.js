@@ -39,6 +39,10 @@ function withSite({ config = {}, files = {}, feedPlugin = true } = {}, verify) {
     fs.writeFileSync(path.join(dir, '_config.yml'), yaml.dump({ ...fixtureConfig, ...config }));
     for (const [filename, content] of Object.entries(files)) {
       const target = path.join(dir, filename);
+      if (content === null) {
+        fs.rmSync(target, { force: true });
+        continue;
+      }
       fs.mkdirSync(path.dirname(target), { recursive: true });
       fs.writeFileSync(target, content);
     }
