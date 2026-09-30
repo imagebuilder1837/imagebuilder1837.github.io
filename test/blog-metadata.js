@@ -96,8 +96,8 @@ for (const route of ['index.html', 'about/index.html', 'archives/index.html', 't
   if (route === 'about/index.html') {
     assert.equal(doc.text(doc.tags('h1')[0]), 'About');
     assert.equal(doc.attrs(doc.tags('h1')[0].parentNode).class, 'content', 'About H1 is rendered from source Markdown');
-    assert.deepEqual(doc.meta('og:title'), ['About']);
-    assert.equal(doc.text(doc.tags('title')[0]), `About | ${config.title}`);
+    assert.deepEqual(doc.meta('og:title'), ['关于']);
+    assert.equal(doc.text(doc.tags('title')[0]), `关于 | ${config.title}`);
   }
 }
 console.log(`ok ${originals.length} blog article metadata, course separators and ${entries.length} Atom entries`);

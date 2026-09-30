@@ -15,6 +15,12 @@ const site = path.resolve(__dirname, '..');
 const config = yaml.load(fs.readFileSync(path.join(site, '_config.yml'), 'utf8'));
 const publicDir = path.join(site, 'public');
 const read = route => fs.readFileSync(path.join(publicDir, route), 'utf8');
+for (const [route, title] of [['archives', '归档'], ['categories', '分类'], ['tags', '标签'], ['about', '关于']]) {
+  const doc = document(read(`${route}/index.html`));
+  assert.deepEqual(doc.tags('title').map(doc.text), [`${title} | ${config.title}`], `${route}: Chinese page title`);
+  assert.deepEqual(doc.tags('h1').map(doc.text), [route === 'about' ? 'About' : title], `${route}: heading`);
+  assert.deepEqual(doc.meta('og:title'), [title], `${route}: Chinese sharing title`);
+}
 const posts = fs.readdirSync(path.join(site, 'source/_posts')).filter(file => file.endsWith('.md'))
   .map(file => parse(fs.readFileSync(path.join(site, 'source/_posts', file), 'utf8')));
 const titleSet = new Set(posts.map(post => post.title));

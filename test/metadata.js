@@ -76,7 +76,13 @@ for (const prefix of ['', '/journal']) {
     const aboutHeading = about.tags('h1')[0];
     assert.equal(about.text(aboutHeading), 'About this example', 'About heading comes from Markdown, not metadata');
     assert.equal(about.attrs(aboutHeading.parentNode).class, 'content');
-    assert.deepEqual(about.meta('og:title'), ['About'], 'metadata title remains independent');
+    assert.deepEqual(about.meta('og:title'), ['关于'], 'About layout title uses theme translation');
+    for (const [route, title] of [['archives/', '归档'], ['categories/', '分类'], ['tags/', '标签'], ['about/', '关于']]) {
+      const doc = check(route, route === 'about/' ? 'de-DE' : 'zh-CN');
+      assert.deepEqual(doc.tags('title').map(doc.text), [`${title} | Example site`], `${route}: localized browser title`);
+      assert.deepEqual(doc.meta('og:title'), [title], `${route}: localized sharing title`);
+      if (route !== 'about/') assert.deepEqual(doc.tags('h1').map(doc.text), [title], `${route}: localized heading`);
+    }
     const info = check('info/', 'ja-JP');
     assert.deepEqual(info.meta('description'), ['Page summary']);
 
