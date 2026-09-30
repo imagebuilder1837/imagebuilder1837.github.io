@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "test": "node test/integration.js && node test/metadata.js && node test/browsing.js && node test/verification.js && node test/blog-metadata.js && node test/blog-browsing.js",
+    "test": "node test/integration.js && node test/menu.js && node test/metadata.js && node test/browsing.js && node test/migration.js && node test/verification.js && node test/blog-metadata.js && node test/blog-browsing.js && node test/blog-migration.js",
     "clean": "hexo clean",
     "server": "hexo server"
   },

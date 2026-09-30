@@ -9,7 +9,7 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 const { parse } = require('hexo-front-matter');
 const { imageSize } = require('image-size');
-const { document } = require('./helpers/html');
+const { document, pagination } = require('./helpers/html');
 
 const site = path.resolve(__dirname, '..');
 const config = yaml.load(fs.readFileSync(path.join(site, '_config.yml'), 'utf8'));
@@ -37,6 +37,7 @@ const paginated = [];
 for (let i = 1; i <= Math.ceil(posts.length / 12); i++) {
   const route = i === 1 ? 'index.html' : `page/${i}/index.html`;
   const doc = document(read(route));
+  pagination(doc, i, Math.ceil(posts.length / 12));
   const titles = titleLinks(doc);
   assert.equal(titles.length, Math.min(12, posts.length - (i - 1) * 12), route);
   paginated.push(...titles);
@@ -50,6 +51,8 @@ for (let i = 1; i <= Math.ceil(posts.length / 12); i++) {
 assert.equal(paginated.length, posts.length);
 assert.deepEqual(new Set(paginated), titleSet, 'every article appears on exactly one home page');
 const home = document(read('index.html'));
+assert.deepEqual(home.tags('a').filter(node => (home.attrs(node).class || '').split(' ').includes('nav-menu')).map(home.text),
+  ['HOME', 'ARCHIVE', 'CATEGORY', 'TAG', 'ABOUT'], 'blog menu display order');
 for (const href of ['/categories', '/tags']) assert.ok(home.tags('a').some(node => docHref(home, node).replace(/\/$/, '') === href), `menu ${href}`);
 function docHref(doc, node) { return doc.attrs(node).href || ''; }
 

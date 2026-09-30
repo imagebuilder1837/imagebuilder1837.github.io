@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { withSite } = require('./helpers/site');
-const { document } = require('./helpers/html');
+const { document, pagination } = require('./helpers/html');
 
 const highlight = { enable: true, line_number: false, auto_detect: false, wrap: false, hljs: true, strip_indent: false, tab_replace: '' };
 const read = (dir, route) => fs.readFileSync(path.join(dir, 'public', route), 'utf8');
@@ -58,6 +58,7 @@ withSite({ files, config: {
   for (const [i, route] of routes.entries()) {
     const html = read(dir, route);
     const doc = document(html);
+    pagination(doc, i + 1, routes.length);
     const titles = cards(doc);
     assert.equal(titles.length, i === 3 ? 2 : 12, route);
     seen.push(...titles);

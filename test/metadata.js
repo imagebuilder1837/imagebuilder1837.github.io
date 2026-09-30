@@ -42,7 +42,7 @@ const files = {
     author: 'Guest </script><script>alert(1)</script>', permalink: '/notes/safe/'
   }),
   'source/_drafts/secret.md': post('Unpublished draft', { description: 'Not public' }),
-  'source/about/index.md': markdown({ layout: 'about', title: 'About', lang: 'de-DE' }),
+  'source/about/index.md': markdown({ layout: 'about', title: 'About', lang: 'de-DE' }, '# About this example\n\n## Body\n\nExample text.\n'),
   'source/info/index.md': markdown({ layout: 'page', title: 'Info', description: 'Page summary', language: 'ja-JP' }),
   'source/images/cover.webp': 'fixture image bytes',
   'source/raw.html': 'verification: unchanged',
@@ -73,6 +73,10 @@ for (const prefix of ['', '/journal']) {
     assert.ok(archive.tags('h2').length, 'archive year groups are H2');
     const about = check('about/', 'de-DE');
     assert.deepEqual(about.meta('og:locale'), ['de_DE']);
+    const aboutHeading = about.tags('h1')[0];
+    assert.equal(about.text(aboutHeading), 'About this example', 'About heading comes from Markdown, not metadata');
+    assert.equal(about.attrs(aboutHeading.parentNode).class, 'content');
+    assert.deepEqual(about.meta('og:title'), ['About'], 'metadata title remains independent');
     const info = check('info/', 'ja-JP');
     assert.deepEqual(info.meta('description'), ['Page summary']);
 

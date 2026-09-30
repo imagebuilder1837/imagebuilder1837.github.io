@@ -21,13 +21,18 @@ instance.init()
 
 // All integration tests observe Hexo's generated routes, not private helpers.
 // The temporary site never cleans or writes the real blog's public directory.
-function withSite({ config = {}, files = {}, feedPlugin = true } = {}, verify) {
+function withSite({ config = {}, files = {}, feedPlugin = true, blogScripts = false } = {}, verify) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'clover-example-'));
   try {
     fs.cpSync(fixture, dir, { recursive: true });
     fs.symlinkSync(modules, path.join(dir, 'node_modules'), 'dir');
     fs.mkdirSync(path.join(dir, 'themes'));
     fs.symlinkSync(theme, path.join(dir, 'themes', 'clover'), 'dir');
+    if (blogScripts) {
+      fs.cpSync(path.join(site, 'scripts'), path.join(dir, 'scripts'), { recursive: true });
+      fs.mkdirSync(path.join(dir, 'migrations'));
+      fs.writeFileSync(path.join(dir, 'migrations', 'redirects.json'), '[]');
+    }
     const sitePkg = JSON.parse(fs.readFileSync(path.join(site, 'package.json'), 'utf8'));
     const dependencies = { ...sitePkg.dependencies };
     if (!feedPlugin) delete dependencies['hexo-generator-feed'];

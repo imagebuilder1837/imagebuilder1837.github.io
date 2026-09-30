@@ -1,13 +1,15 @@
 'use strict';
 
 // Run after verification.js has cleanly generated the real blog. This checks
-// #13 metadata only; URL migration, sitemap and cross-ticket gates are separate.
+// Metadata plus #15's objective, non-empty description gate. URL migration
+// and discovery are checked by blog-migration.js.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { parse } = require('hexo-front-matter');
 const { stripHTML, unescapeHTML } = require('hexo-util');
 const yaml = require('js-yaml');
+const moment = require('moment-timezone');
 const { XMLParser, XMLValidator } = require('fast-xml-parser');
 const { document, pageMetadata } = require('./helpers/html');
 
@@ -15,7 +17,15 @@ const site = path.resolve(__dirname, '..');
 const publicDir = path.join(site, 'public');
 const config = yaml.load(fs.readFileSync(path.join(site, '_config.yml'), 'utf8'));
 const originals = fs.readdirSync(path.join(site, 'source', '_posts')).filter(file => file.endsWith('.md'))
-  .map(file => ({ file, data: parse(fs.readFileSync(path.join(site, 'source', '_posts', file), 'utf8')) }));
+  .map(file => {
+    const raw = fs.readFileSync(path.join(site, 'source', '_posts', file), 'utf8');
+    // Front-matter YAML dates otherwise inherit the machine timezone. Public
+    // dates follow the site's timezone, including on UTC CI runners.
+    const dateText = raw.match(/^date: (.+)$/m)?.[1];
+    const published = moment.tz(dateText, 'YYYY-MM-DD HH:mm:ss', true, config.timezone).toISOString();
+    assert.ok(published, `${file}: valid publication date`);
+    return { file, data: parse(raw), published };
+  });
 const generated = new Map();
 for (const route of fs.readdirSync(publicDir, { recursive: true }).filter(route => route.endsWith('.html'))) {
   if (route === 'google17db084228384126.html') continue;
@@ -24,9 +34,10 @@ for (const route of fs.readdirSync(publicDir, { recursive: true }).filter(route 
   if (doc.ld.length) generated.set(doc.ld[0].headline, { html, doc });
 }
 assert.equal(generated.size, originals.length, 'every real article gets BlogPosting');
-for (const { file, data } of originals) {
-  // Summary quality/completeness is maintained manually. Check only that
-  // generated channels honor description -> excerpt -> omission consistently.
+for (const { file, data, published } of originals) {
+  // Summary meaning remains editorial; description must exist independently
+  // of the card excerpt. No length or keyword-count threshold is imposed.
+  assert.ok(typeof data.description === 'string' && data.description.trim(), `${file}: non-empty description`);
   const plain = value => typeof value === 'string' ? unescapeHTML(stripHTML(value)).replace(/\s+/g, ' ').trim() : '';
   const summary = plain(data.description) || plain(data.excerpt);
   const entry = generated.get(data.title);
@@ -49,7 +60,7 @@ for (const { file, data } of originals) {
   assert.equal(data.source_url, source);
   assert.equal(doc.ld[0].isBasedOn, source);
   assert.ok(!('url' in doc.ld[0].author));
-  assert.equal(doc.ld[0].datePublished, data.date.toISOString());
+  assert.equal(doc.ld[0].datePublished, published);
   assert.equal(data.updated, undefined, 'metadata cleanup does not invent revisions');
   assert.ok(!('dateModified' in doc.ld[0]));
   assert.deepEqual(doc.meta('article:modified_time'), []);
@@ -81,6 +92,12 @@ for (const entry of entries) {
 }
 for (const route of ['index.html', 'about/index.html', 'archives/index.html', 'tags/index.html', 'categories/index.html']) {
   const url = config.url + '/' + route.replace(/index\.html$/, '');
-  pageMetadata(fs.readFileSync(path.join(publicDir, route), 'utf8'), url, 'zh-CN');
+  const doc = pageMetadata(fs.readFileSync(path.join(publicDir, route), 'utf8'), url, 'zh-CN');
+  if (route === 'about/index.html') {
+    assert.equal(doc.text(doc.tags('h1')[0]), 'About');
+    assert.equal(doc.attrs(doc.tags('h1')[0].parentNode).class, 'content', 'About H1 is rendered from source Markdown');
+    assert.deepEqual(doc.meta('og:title'), ['About']);
+    assert.equal(doc.text(doc.tags('title')[0]), `About | ${config.title}`);
+  }
 }
 console.log(`ok ${originals.length} blog article metadata, course separators and ${entries.length} Atom entries`);
