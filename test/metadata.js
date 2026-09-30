@@ -6,7 +6,7 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 const { XMLParser, XMLValidator } = require('fast-xml-parser');
 const { withSite } = require('./helpers/site');
-const { pageMetadata } = require('./helpers/html');
+const { document, pageMetadata } = require('./helpers/html');
 
 const markdown = (data, body = '## Body\n\nExample text.\n') => `---\n${yaml.dump(data)}---\n\n${body}`;
 const post = (title, fields = {}) => markdown({ title, date: '2024-01-01 08:00:00', ...fields });
@@ -189,3 +189,54 @@ withSite({ config: { feed: { type: ['rss2', 'atom'], path: ['rss.xml', 'custom-a
   assert.equal(XMLValidator.validate(read(dir, 'rss.xml')), true, 'existing RSS sibling is not replaced');
 });
 console.log('ok invalid declarations, feed limit, drafts and combined feed routes');
+
+const atomLinks = html => {
+  const doc = document(html);
+  return doc.tags('link').map(doc.attrs).filter(attrs => attrs.rel === 'alternate' && attrs.type === 'application/atom+xml');
+};
+const noPosts = Object.fromEntries(fs.readdirSync(path.join(__dirname, 'fixture/source/_posts'))
+  .map(file => ['source/_posts/' + file, null]));
+for (const [label, config, extraFiles, feedPath, discovered] of [
+  ['no articles', {}, {}, 'atom.xml', true],
+  ['all anonymous', {}, {
+    'source/_posts/anonymous.md': post('Anonymous only', { author: false, permalink: '/anonymous/' })
+  }, 'atom.xml', true],
+  ['custom path and root', { url: 'https://example.com/journal', root: '/journal/', feed: { type: 'atom', path: 'feeds/custom.xml' } }, {}, 'feeds/custom.xml', true],
+  ['autodiscovery disabled', { feed: { type: 'atom', autodiscovery: false } }, {}, 'atom.xml', false]
+]) {
+  const started = Date.now();
+  withSite({ config, files: { ...noPosts, ...extraFiles } }, (dir, result) => {
+    succeeds(result);
+    const feed = parseFeed(read(dir, feedPath));
+    assert.equal([].concat(feed.entry || []).length, 0, `${label}: empty Atom remains available`);
+    assert.equal(feed['@_xmlns'], 'http://www.w3.org/2005/Atom');
+    assert.equal(feed.title, 'Example site');
+    const base = config.url || 'https://example.com';
+    assert.equal(feed.id, base + '/');
+    const self = [].concat(feed.link).find(link => link['@_rel'] === 'self');
+    assert.equal(self['@_href'], base + '/' + feedPath);
+    const updated = Date.parse(feed.updated);
+    assert.ok(updated >= started && updated <= Date.now(), `${label}: empty feed updated is its generation time`);
+    assert.match(feed.updated, /Z$/, 'UTC feed timestamp');
+    const links = atomLinks(read(dir, 'index.html'));
+    assert.equal(links.length, discovered ? 1 : 0);
+    if (discovered) assert.equal(new URL(links[0].href, base).href, self['@_href'], 'automatic discovery targets the generated feed');
+    if (label === 'all anonymous') {
+      const doc = pageMetadata(read(dir, 'anonymous/index.html'), base + '/anonymous/', 'en', true);
+      assert.ok(!doc.ld[0].author, 'anonymous article still publishes without an author');
+      assert.deepEqual(doc.meta('article:author'), []);
+    }
+    console.log(`ok empty Atom ${label}`);
+  });
+}
+for (const [label, options] of [
+  ['feed disabled', { config: { feed: { type: 'atom', enable: false } } }],
+  ['plugin absent', { feedPlugin: false }]
+]) {
+  withSite(options, (dir, result) => {
+    succeeds(result);
+    assert.ok(!fs.existsSync(path.join(dir, 'public/atom.xml')), `${label}: no feed route`);
+    assert.equal(atomLinks(read(dir, 'index.html')).length, 0, `${label}: no automatic discovery`);
+    console.log(`ok Atom ${label}`);
+  });
+}
