@@ -61,13 +61,17 @@ for (const [route, doc] of htmlDocs) {
     const attrs = doc.attrs(node);
     const href = attrs.href || attrs.src;
     if (!href) continue;
-    const url = new URL(href, config.url + '/' + route);
+    const url = new URL(href, doc.canonical[0] || config.url + '/' + route);
     if (url.origin !== new URL(config.url).origin || !['http:', 'https:'].includes(url.protocol)) continue;
     assert.ok(!aliasPaths.has(url.pathname), `${route}: internal link points directly to a new address (${href})`);
     const filename = decodeURIComponent(url.pathname).replace(/^\//, '');
     const target = routes.has(filename) ? filename : filename.replace(/\/$/, '') + (filename ? '/' : '') + 'index.html';
     assert.ok(routes.has(target), `${route}: local target exists (${href})`);
     localLinks++;
+    if (htmlDocs.has(target) && !aliasRoutes.has(target) && htmlDocs.get(target).canonical.length) {
+      const canonical = new URL(htmlDocs.get(target).canonical[0]);
+      assert.equal(url.pathname, canonical.pathname, `${route}: formal page link uses its canonical path (${href})`);
+    }
     if (url.hash && htmlDocs.has(target)) {
       const id = decodeURIComponent(url.hash.slice(1));
       if (id) {

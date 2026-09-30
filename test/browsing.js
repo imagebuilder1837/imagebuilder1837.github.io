@@ -106,8 +106,26 @@ withSite({ files, config: {
   assert.equal(article.tags('td').length, 0, 'no gutter or layout table');
   assert.equal(article.tags('button').length, 0, 'static/no-JS code has no inert copy controls');
   const css = read(dir, 'css/index.css');
-  assert.match(css, /hljs-keyword/); assert.match(css, /white-space:\s*pre/);
-  assert.match(css, /overflow:\s*auto/); assert.match(css, /height:\s*auto/);
+  const declarations = selector => {
+    const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter(([, selectors]) => selectors.split(',').some(value => value.trim() === selector));
+    assert.ok(rules.length, `generated CSS contains ${selector}`);
+    return Object.fromEntries(rules.flatMap(([, , body]) => body.split(';').filter(value => value.trim()).map(value => {
+      const colon = value.indexOf(':');
+      return [value.slice(0, colon).trim(), value.slice(colon + 1).trim()];
+    })));
+  };
+  const preStyle = declarations('.article > .content pre');
+  const codeStyle = declarations('.article > .content pre > code');
+  assert.equal(preStyle.overflow, 'visible', 'no horizontal scrolling container');
+  for (const style of [preStyle, codeStyle]) {
+    assert.equal(style['white-space'], 'pre-wrap', 'preserve whitespace and wrap long lines');
+    assert.equal(style['overflow-wrap'], 'anywhere', 'wrap unbroken tokens');
+  }
+  assert.equal(codeStyle['max-width'], '100%');
+  assert.equal(codeStyle['box-sizing'], 'border-box', 'padding stays within available width');
+  assert.equal(declarations('.article > .content img').height, 'auto');
+  assert.match(css, /hljs-keyword/);
   assert.ok(fs.existsSync(path.join(dir, 'public/js/code-copy.js')));
   console.log('ok generated navigation, local dimensions/loading and build highlighting');
 });

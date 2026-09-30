@@ -59,7 +59,9 @@ assert.deepEqual(new Set(paginated), titleSet, 'every article appears on exactly
 const home = document(read('index.html'));
 assert.deepEqual(home.tags('a').filter(node => (home.attrs(node).class || '').split(' ').includes('nav-menu')).map(home.text),
   ['HOME', 'ARCHIVE', 'CATEGORY', 'TAG', 'ABOUT'], 'blog menu display order');
-for (const href of ['/categories', '/tags']) assert.ok(home.tags('a').some(node => docHref(home, node).replace(/\/$/, '') === href), `menu ${href}`);
+for (const href of ['/', '/archives/', '/categories/', '/tags/', '/about/']) {
+  assert.ok(home.tags('a').some(node => docHref(home, node) === href && (home.attrs(node).class || '').split(' ').includes('nav-menu')), `canonical menu ${href}`);
+}
 function docHref(doc, node) { return doc.attrs(node).href || ''; }
 
 let images = 0;

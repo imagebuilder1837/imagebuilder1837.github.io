@@ -122,10 +122,10 @@ theme_config:
   code_copy: true
   menu:
     Home: /
-    Archive: /archives
-    Category: /categories
-    Tag: /tags
-    About: /about
+    Archive: /archives/
+    Category: /categories/
+    Tag: /tags/
+    About: /about/
 plugins:
   hexo-generator-feed
 # Feed Atom
