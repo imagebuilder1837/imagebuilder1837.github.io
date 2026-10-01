@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "test": "npm run clean && npm run build && npm run test:checks",
-    "test:checks": "node --test --test-concurrency=1 test/dependabot.js test/workflows.js test/lists.js test/integration.js test/menu.js test/metadata.js test/browsing.js test/migration.js test/verification.js test/blog-metadata.js test/blog-browsing.js test/blog-discovery.js",
+    "test": "npm run clean && npm run build && node test/site.js",
     "clean": "hexo clean",
     "server": "hexo server"
   },
@@ -29,7 +28,6 @@
     "parse5": "^8.0.1"
   },
   "devDependencies": {
-    "fast-xml-parser": "^5.11.2",
     "hexo-cli": "^4.3.2",
     "js-yaml": "^5.4.2"
   },
