@@ -115,8 +115,6 @@ theme_config:
     Zhihu: https://www.zhihu.com/people/imagebuilder1837
     bilibili: https://space.bilibili.com/366719977
     RSS: /atom.xml
-  # Preserve the existing blog icon order after Hexo merges social maps.
-  social_order: [Bangumi, GitHub, Zhihu, bilibili, RSS]
   mail: imagebuilder1837@outlook.com
   copyright: This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
   code_copy: true
