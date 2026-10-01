@@ -1,32 +1,45 @@
-name: Dependabot npm auto-merge
+name: Dependabot auto-merge
 
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, edited]
 
 permissions:
   contents: read
+
+# Serialize operations per PR, without treating cancellation as a content lock.
+concurrency:
+  group: dependabot-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
 
 jobs:
   validate:
     if: >-
       github.repository == 'imagebuilder1837/imagebuilder1837.github.io' &&
-      github.event.pull_request.user.id == 49699333 &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.base.ref == 'main' &&
-      !github.event.pull_request.draft
+      github.event.pull_request.user.id == 49699333
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
+    outputs:
+      eligible: ${{ steps.scope.outputs.eligible }}
     steps:
-      # This privileged workflow never checks out or executes the PR's code.
-      # fetch-metadata verifies the Dependabot author and signed commits.
+      # Only trusted default-branch code/dependencies are used, never the PR ref.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
       - id: metadata
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3
         with:
           github-token: ${{ github.token }}
-      - name: Verify npm update scope and unchanged PR head
+      - name: Check the limited update scope
+        id: scope
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -35,33 +48,34 @@ jobs:
           ECOSYSTEM: ${{ steps.metadata.outputs.package-ecosystem }}
           DIRECTORY: ${{ steps.metadata.outputs.directory }}
           DEPENDENCIES: ${{ steps.metadata.outputs.updated-dependencies-json }}
-        run: |
-          set -euo pipefail
-          test "$ECOSYSTEM" = npm_and_yarn
-          test "$DIRECTORY" = /
-          test -n "$DEPENDENCIES"
-          test "$(gh api "repos/$REPO/pulls/$PR" --jq .head.sha)" = "$HEAD_SHA"
-          files=$(gh api --paginate "repos/$REPO/pulls/$PR/files?per_page=100" --jq '.[].filename')
-          test -n "$files"
-          while IFS= read -r file; do
-            case "$file" in
-              package.json|package-lock.json) ;;
-              *) echo "Non-npm file in PR: $file" >&2; exit 1 ;;
-            esac
-          done <<< "$files"
+        run: node .github/scripts/dependabot-scope.cjs validate
 
-  enable-auto-merge:
+  manage-auto-merge:
     needs: validate
-    if: vars.DEPENDABOT_AUTOMERGE_ENABLED == 'true'
+    # Failed validation must also revoke a previously enabled auto-merge request.
+    if: >-
+      always() && !cancelled() &&
+      github.repository == 'imagebuilder1837/imagebuilder1837.github.io' &&
+      github.event.pull_request.user.id == 49699333
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Enable auto-merge after required checks pass
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      # No installation or execution of PR code in this write-capable job.
+      - name: Enable eligible updates or confirm auto-merge is disabled
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: gh pr merge "$PR" --repo "$REPO" --auto --squash --match-head-commit "$HEAD_SHA"
+          ELIGIBLE: ${{ needs.validate.result == 'success' && needs.validate.outputs.eligible == 'true' }}
+          AUTOMERGE_ENABLED: ${{ vars.DEPENDABOT_AUTOMERGE_ENABLED }}
+        run: node .github/scripts/dependabot-scope.cjs manage
