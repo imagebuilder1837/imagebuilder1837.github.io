@@ -90,9 +90,16 @@ withSite({ files, config: {
   assert.ok(!fs.existsSync(path.join(dir, 'public/categories/Example/page/2/index.html')));
   assert.ok(!fs.existsSync(path.join(dir, 'public/archives/page/2/index.html')));
   const article = document(read(dir, '2025/01/01/sample-0/index.html'));
-  const images = article.tags('img').map(article.attrs);
+  const allImages = article.tags('img');
+  const cover = allImages[0];
+  assert.deepEqual(article.attrs(cover), {
+    class: 'cover', src: '/images/example.webp', alt: '', width: '32', height: '16', loading: 'eager'
+  });
+  const section = cover.parentNode;
+  assert.deepEqual(section.childNodes.filter(node => node.tagName).slice(0, 4).map(node => node.tagName), ['img', 'h1', 'p', 'article'], 'cover precedes the title and body');
+  const images = allImages.slice(1).map(article.attrs);
   assert.deepEqual(images.slice(0, 2).map(img => [img.width, img.height, img.loading, img.alt]), [
-    ['32', '16', undefined, undefined], ['32', '16', 'lazy', 'Author supplied text']
+    ['32', '16', 'lazy', undefined], ['32', '16', 'lazy', 'Author supplied text']
   ]);
   assert.equal(images[2].width, undefined, 'missing dimensions are not invented');
   assert.equal(images[3].width, undefined, 'remote dimensions are not probed');
@@ -125,6 +132,29 @@ withSite({ files, config: {
   assert.equal(codeStyle['max-width'], '100%');
   assert.equal(codeStyle['box-sizing'], 'border-box', 'padding stays within available width');
   assert.equal(declarations('.article > .content img').height, 'auto');
+  assert.equal(declarations('.article > .cover').width, '100%');
+  assert.equal(declarations('.article > .cover').height, 'auto');
+  assert.equal(declarations('.article.article-post > .content')['padding-bottom'], '32px');
+  assert.equal(declarations('.article > footer').padding, '20px 0 0', 'mobile nav matches outer bottom inset');
+  for (const [selector, padding] of [
+    ['.article', ['48px 90px', '20px']],
+    ['.project-card', ['48px 64px', '20px']],
+    ['.archive', ['64px 90px', '20px']],
+    ['.tagcloud', ['64px 90px', '20px']],
+    ['body[data-layout=about] .article', ['64px 90px', '20px']],
+    ['body[data-layout=category] .project-card', ['64px 90px', '20px']],
+    ['body[data-layout=tag] .project-card', ['64px 90px', '20px']]
+  ]) {
+    const values = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter(([, selectors]) => selectors.split(',').some(value => value.trim() === selector))
+      .flatMap(([, , body]) => [...body.matchAll(/(?:^|;)\s*padding:\s*([^;]+)/g)].map(match => match[1].trim()));
+    assert.deepEqual(values, padding, `${selector}: chosen desktop/mobile insets`);
+  }
+  for (const [route, layout] of [['index.html', 'home'], ['page/2/index.html', 'home'], ['categories/index.html', 'category'], ['categories/Example/index.html', 'category'], ['tags/index.html', 'tag'], ['tags/Useful/index.html', 'tag'], ['2025/01/01/sample-0/index.html', 'post']]) {
+    const page = document(read(dir, route));
+    assert.equal(page.attrs(page.tags('body')[0])['data-layout'], layout, `${route}: layout scope`);
+  }
+  assert.ok(!read(dir, 'index.html').includes('prototype'), 'no prototype controls in production');
   assert.match(css, /hljs-keyword/);
   assert.ok(fs.existsSync(path.join(dir, 'public/js/code-copy.js')));
   console.log('ok generated navigation, local dimensions/loading and build highlighting');
@@ -154,4 +184,23 @@ withSite({ config: { root: '/blog/', url: 'https://example.com/blog' }, files: {
   const article = document(read(dir, '2025/01/01/local/index.html'));
   article.tags('img').forEach(node => assert.equal(article.attrs(node).width, '32', 'root/relative asset dimensions'));
 });
-console.log('ok source-owned category root, theme opt-in and image paths');
+withSite({ files: {
+  'source/_posts/no-cover.md': '---\ntitle: No cover\ndate: 2025-01-01\n---\n![](/images/example.webp)',
+  'source/_posts/hidden-cover.md': '---\ntitle: Hidden cover\ndate: 2025-01-01\nphotos: /images/example.webp\ncover: false\n---\n![](/images/example.webp)',
+  'source/about/index.md': '---\nlayout: about\n---\n# About\n\nAbout body.'
+} }, (dir, result) => {
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  for (const slug of ['no-cover', 'hidden-cover']) {
+    const article = document(read(dir, `2025/01/01/${slug}/index.html`));
+    const images = article.tags('img').map(article.attrs);
+    assert.equal(images.length, 1, `${slug}: no detail cover or placeholder`);
+    assert.equal(images[0].loading, 'lazy', `${slug}: no first-body-image exception`);
+  }
+  const home = document(read(dir, 'index.html'));
+  const hiddenLink = home.tags('a').find(node => home.attrs(node).href === '/2025/01/01/hidden-cover/');
+  assert.ok(hiddenLink, 'hidden detail cover retains its listing');
+  const about = document(read(dir, 'about/index.html'));
+  assert.equal(about.attrs(about.tags('body')[0])['data-layout'], 'about');
+  assert.equal(about.attrs(about.tags('section')[0]).class, 'article', 'about is not styled as a post');
+});
+console.log('ok source-owned category root, theme opt-in, image paths and optional covers');

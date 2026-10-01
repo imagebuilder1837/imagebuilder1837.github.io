@@ -84,8 +84,9 @@ for (const route of fs.readdirSync(publicDir, { recursive: true }).filter(route 
     images++;
   }
   if (doc.ld.length) {
-    const bodyImages = doc.tags('img').map(doc.attrs);
-    bodyImages.forEach((img, index) => assert.equal(img.loading, index > 0 ? 'lazy' : undefined));
+    const articleImages = doc.tags('img').map(doc.attrs);
+    articleImages.forEach(img => assert.equal(img.loading, img.class === 'cover' ? 'eager' : 'lazy'));
+    assert.ok(articleImages.some(img => img.class === 'cover'), 'current articles display their configured cover');
     assert.ok(doc.tags('script').some(node => doc.attrs(node).src === '/js/code-copy.js'), 'local copy enhancement enabled');
     assert.equal(doc.tags('td').filter(node => doc.attrs(node).class === 'gutter').length, 0, 'no line-number gutter');
     blocks += doc.tags('pre').length;
