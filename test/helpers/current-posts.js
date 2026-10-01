@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
-const { spawnSync } = require('node:child_process');
+const { runSync } = require('./process');
 
 // Read Hexo's current published collection, including its date/timezone and
 // permalink processing. Neither migration evidence nor directory inventories
@@ -26,8 +26,8 @@ hexo.init().then(() => hexo.load()).then(() => {
   return hexo.exit();
 }).catch(error => { console.error(error); process.exit(1); });
 `;
-  const result = spawnSync(process.execPath, ['-e', script], {
-    cwd: dir, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024
+  const result = runSync('read current published collection', process.execPath, ['-e', script], {
+    cwd: dir, timeout: 60_000
   });
   assert.equal(result.status, 0, result.stdout + result.stderr);
   const start = result.stdout.lastIndexOf(marker);

@@ -1,11 +1,12 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const { test } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 const { XMLParser, XMLValidator } = require('fast-xml-parser');
-const { withSite } = require('./helpers/site');
+const { withSite, testSite } = require('./helpers/site');
 const { document, pageMetadata } = require('./helpers/html');
 
 const markdown = (data, body = '## Body\n\nExample text.\n') => `---\n${yaml.dump(data)}---\n\n${body}`;
@@ -49,7 +50,7 @@ const files = {
 };
 
 for (const prefix of ['', '/journal']) {
-  withSite({
+  testSite(`metadata and Atom: ${prefix || 'root'}`, {
     config: {
       url: `https://example.com${prefix}`, root: `${prefix}/`, language: 'zh-CN',
       description: 'Site summary', keywords: ['Example', 'Stories'], timezone: 'Asia/Shanghai',
@@ -135,7 +136,6 @@ for (const prefix of ['', '/journal']) {
       assert.equal(entry.published, doc.ld[0].datePublished);
       assert.equal(entry.updated, doc.ld[0].dateModified || entry.published);
     }
-    console.log(`ok metadata and Atom ${prefix || 'root'}`);
   });
 }
 
@@ -145,50 +145,48 @@ for (const [label, config, expected, locale] of [
   ['language list', { language: ['default', 'bad!', 'fr-fr'] }, 'fr-FR', 'fr_FR'],
   ['script-only language', { language: 'zh-Hant' }, 'zh-Hant', undefined]
 ]) {
-  withSite({ config, feedPlugin: false }, (dir, result) => {
+  testSite(`language: ${label}`, { config, feedPlugin: false }, (dir, result) => {
     succeeds(result);
     const doc = pageMetadata(read(dir, 'index.html'), 'https://example.com/', expected);
     assert.deepEqual(doc.meta('og:locale'), locale ? [locale] : []);
     assert.deepEqual(doc.meta('keywords'), [], 'site keywords are optional');
     assert.ok(!fs.existsSync(path.join(dir, 'public', 'atom.xml')), 'theme does not enable optional feed');
-    console.log(`ok language ${label}`);
   });
 }
 
 for (const invalid of ['', null, true, [], {}, 42]) {
-  withSite({ files: { 'source/_posts/01-plain.md': post('Invalid author', { author: invalid }) } }, (dir, result) => {
+  testSite(`reject invalid author: ${JSON.stringify(invalid)}`, { files: { 'source/_posts/01-plain.md': post('Invalid author', { author: invalid }) } }, (dir, result) => {
     assert.notEqual(result.status, 0);
     assert.match(result.stderr + result.stdout, /01-plain\.md.*author must be/);
   });
 }
 for (const invalid of ['bad!', true, []]) {
-  withSite({ files: { 'source/_posts/01-plain.md': post('Invalid language', { lang: invalid }) } }, (dir, result) => {
+  testSite(`reject invalid article language: ${JSON.stringify(invalid)}`, { files: { 'source/_posts/01-plain.md': post('Invalid language', { lang: invalid }) } }, (dir, result) => {
     assert.notEqual(result.status, 0);
     assert.match(result.stderr + result.stdout, /01-plain\.md.*invalid language/);
   });
 }
-withSite({ config: { language: 'bad!' } }, (dir, result) => {
+testSite('reject invalid site language', { config: { language: 'bad!' } }, (dir, result) => {
   assert.notEqual(result.status, 0);
   assert.match(result.stderr + result.stdout, /invalid language/);
 });
-withSite({ config: { feed: { type: 'atom', limit: 1 } }, files }, (dir, result) => {
+testSite('Atom filters anonymous articles before limit', { config: { feed: { type: 'atom', limit: 1 } }, files }, (dir, result) => {
   succeeds(result);
   const feed = parseFeed(read(dir, 'atom.xml'));
   assert.notEqual(feed.entry.title, 'No author', 'false excluded before applying feed limit');
   assert.equal(Array.isArray(feed.entry), false);
 });
-withSite({ config: { render_drafts: true, feed: { type: 'atom', limit: 0 } }, files }, (dir, result) => {
+testSite('preview drafts excluded from Atom', { config: { render_drafts: true, feed: { type: 'atom', limit: 0 } }, files }, (dir, result) => {
   succeeds(result);
   const feed = parseFeed(read(dir, 'atom.xml'));
   assert.ok(!feed.entry.some(entry => entry.title === 'Unpublished draft'), 'preview drafts never enter Atom');
 });
-withSite({ config: { feed: { type: ['rss2', 'atom'], path: ['rss.xml', 'custom-atom.xml'], limit: 0 } }, files }, (dir, result) => {
+testSite('Atom and RSS sibling routes coexist', { config: { feed: { type: ['rss2', 'atom'], path: ['rss.xml', 'custom-atom.xml'], limit: 0 } }, files }, (dir, result) => {
   succeeds(result);
   const feed = parseFeed(read(dir, 'custom-atom.xml'));
   assert.equal(feed.entry.length, 5);
   assert.equal(XMLValidator.validate(read(dir, 'rss.xml')), true, 'existing RSS sibling is not replaced');
 });
-console.log('ok invalid declarations, feed limit, drafts and combined feed routes');
 
 const atomLinks = html => {
   const doc = document(html);
@@ -197,46 +195,103 @@ const atomLinks = html => {
 const noPosts = Object.fromEntries(fs.readdirSync(path.join(__dirname, 'fixture/source/_posts'))
   .map(file => ['source/_posts/' + file, null]));
 for (const [label, config, extraFiles, feedPath, discovered] of [
-  ['no articles', {}, {}, 'atom.xml', true],
-  ['all anonymous', {}, {
-    'source/_posts/anonymous.md': post('Anonymous only', { author: false, permalink: '/anonymous/' })
-  }, 'atom.xml', true],
-  ['custom path and root', { url: 'https://example.com/journal', root: '/journal/', feed: { type: 'atom', path: 'feeds/custom.xml' } }, {}, 'feeds/custom.xml', true],
-  ['autodiscovery disabled', { feed: { type: 'atom', autodiscovery: false } }, {}, 'atom.xml', false]
+  ["no articles", {}, {}, "atom.xml", true],
+  [
+    "all anonymous",
+    {},
+    {
+      "source/_posts/anonymous.md": post("Anonymous only", {
+        author: false,
+        permalink: "/anonymous/",
+      }),
+    },
+    "atom.xml",
+    true,
+  ],
+  [
+    "custom path and root",
+    {
+      url: "https://example.com/journal",
+      root: "/journal/",
+      feed: { type: "atom", path: "feeds/custom.xml" },
+    },
+    {},
+    "feeds/custom.xml",
+    true,
+  ],
+  [
+    "autodiscovery disabled",
+    { feed: { type: "atom", autodiscovery: false } },
+    {},
+    "atom.xml",
+    false,
+  ],
 ]) {
-  const started = Date.now();
-  withSite({ config, files: { ...noPosts, ...extraFiles } }, (dir, result) => {
-    succeeds(result);
-    const feed = parseFeed(read(dir, feedPath));
-    assert.equal([].concat(feed.entry || []).length, 0, `${label}: empty Atom remains available`);
-    assert.equal(feed['@_xmlns'], 'http://www.w3.org/2005/Atom');
-    assert.equal(feed.title, 'Example site');
-    const base = config.url || 'https://example.com';
-    assert.equal(feed.id, base + '/');
-    const self = [].concat(feed.link).find(link => link['@_rel'] === 'self');
-    assert.equal(self['@_href'], base + '/' + feedPath);
-    const updated = Date.parse(feed.updated);
-    assert.ok(updated >= started && updated <= Date.now(), `${label}: empty feed updated is its generation time`);
-    assert.match(feed.updated, /Z$/, 'UTC feed timestamp');
-    const links = atomLinks(read(dir, 'index.html'));
-    assert.equal(links.length, discovered ? 1 : 0);
-    if (discovered) assert.equal(new URL(links[0].href, base).href, self['@_href'], 'automatic discovery targets the generated feed');
-    if (label === 'all anonymous') {
-      const doc = pageMetadata(read(dir, 'anonymous/index.html'), base + '/anonymous/', 'en', true);
-      assert.ok(!doc.ld[0].author, 'anonymous article still publishes without an author');
-      assert.deepEqual(doc.meta('article:author'), []);
-    }
-    console.log(`ok empty Atom ${label}`);
+  test(`empty Atom: ${label}`, () => {
+    const started = Date.now();
+    withSite(
+      { config, files: { ...noPosts, ...extraFiles } },
+      (dir, result) => {
+        succeeds(result);
+        const feed = parseFeed(read(dir, feedPath));
+        assert.equal(
+          [].concat(feed.entry || []).length,
+          0,
+          `${label}: empty Atom remains available`,
+        );
+        assert.equal(feed["@_xmlns"], "http://www.w3.org/2005/Atom");
+        assert.equal(feed.title, "Example site");
+        const base = config.url || "https://example.com";
+        assert.equal(feed.id, base + "/");
+        const self = []
+          .concat(feed.link)
+          .find((link) => link["@_rel"] === "self");
+        assert.equal(self["@_href"], base + "/" + feedPath);
+        const updated = Date.parse(feed.updated);
+        assert.ok(
+          updated >= started && updated <= Date.now(),
+          `${label}: empty feed updated is its generation time`,
+        );
+        assert.match(feed.updated, /Z$/, "UTC feed timestamp");
+        const links = atomLinks(read(dir, "index.html"));
+        assert.equal(links.length, discovered ? 1 : 0);
+        if (discovered)
+          assert.equal(
+            new URL(links[0].href, base).href,
+            self["@_href"],
+            "automatic discovery targets the generated feed",
+          );
+        if (label === "all anonymous") {
+          const doc = pageMetadata(
+            read(dir, "anonymous/index.html"),
+            base + "/anonymous/",
+            "en",
+            true,
+          );
+          assert.ok(
+            !doc.ld[0].author,
+            "anonymous article still publishes without an author",
+          );
+          assert.deepEqual(doc.meta("article:author"), []);
+        }
+      },
+    );
   });
 }
 for (const [label, options] of [
-  ['feed disabled', { config: { feed: { type: 'atom', enable: false } } }],
-  ['plugin absent', { feedPlugin: false }]
+  ["feed disabled", { config: { feed: { type: "atom", enable: false } } }],
+  ["plugin absent", { feedPlugin: false }],
 ]) {
-  withSite(options, (dir, result) => {
+  testSite(`Atom: ${label}`, options, (dir, result) => {
     succeeds(result);
-    assert.ok(!fs.existsSync(path.join(dir, 'public/atom.xml')), `${label}: no feed route`);
-    assert.equal(atomLinks(read(dir, 'index.html')).length, 0, `${label}: no automatic discovery`);
-    console.log(`ok Atom ${label}`);
+    assert.ok(
+      !fs.existsSync(path.join(dir, "public/atom.xml")),
+      `${label}: no feed route`,
+    );
+    assert.equal(
+      atomLinks(read(dir, "index.html")).length,
+      0,
+      `${label}: no automatic discovery`,
+    );
   });
 }

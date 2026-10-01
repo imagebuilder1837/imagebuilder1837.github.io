@@ -3,9 +3,9 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { spawnSync } = require('node:child_process');
+const { runSync } = require('./helpers/process');
 const { XMLParser, XMLValidator } = require('fast-xml-parser');
-const { withSite } = require('./helpers/site');
+const { testSite } = require('./helpers/site');
 const { pageMetadata } = require('./helpers/html');
 const { compatibility, discovery } = require('./helpers/discovery');
 
@@ -28,7 +28,7 @@ A fictional body.`,
 };
 for (const root of ['/', '/blog/']) {
   const siteURL = 'https://example.com' + (root === '/' ? '' : '/blog');
-  withSite({ blogScripts: true, files, config: { url: siteURL, root, skip_render: ['404.html', 'verification.html'], feed: { type: 'atom', path: 'atom.xml', limit: 0 } } }, (dir, result) => {
+  testSite(`historical URLs, query fallback and discovery: ${root}`, { blogScripts: true, files, config: { url: siteURL, root, skip_render: ['404.html', 'verification.html'], feed: { type: 'atom', path: 'atom.xml', limit: 0 } } }, (dir, result) => {
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const publicDir = path.join(dir, 'public');
     const read = route => fs.readFileSync(path.join(publicDir, route), 'utf8');
@@ -51,7 +51,7 @@ for (const root of ['/', '/blog/']) {
       // output-directory leftovers may be required for compatibility/discovery.
       for (const commands of [['generate'], ['clean', 'generate']]) {
         for (const command of commands) {
-          const rerun = spawnSync(process.execPath, [require.resolve('hexo-cli/bin/hexo'), command], { cwd: dir, encoding: 'utf8' });
+          const rerun = runSync(`fictional migration ${command}`, process.execPath, [require.resolve('hexo-cli/bin/hexo'), command], { cwd: dir });
           assert.equal(rerun.status, 0, rerun.stdout + rerun.stderr);
         }
         assert.deepEqual(products.map(read), original, 'compatibility/discovery rebuilt deterministically');
@@ -76,7 +76,7 @@ const invalid = [
   ['non-page target', [{ from: oldPath, to: '/raw/' }], /not a formal page/]
 ];
 for (const [name, mapping, error] of invalid) {
-  withSite({ blogScripts: true, files: {
+  testSite(`reject historical mapping: ${name}`, { blogScripts: true, files: {
     ...files, 'migrations/redirects.json': JSON.stringify(mapping),
     'source/raw/index.html': 'raw asset',
     'source/generator-order.txt': 'order-independent asset'
@@ -86,7 +86,7 @@ for (const [name, mapping, error] of invalid) {
   });
 }
 // A late asynchronous generator still participates in collision validation.
-withSite({ blogScripts: true, files: {
+testSite('late asynchronous generator collision', { blogScripts: true, files: {
   ...files,
   'scripts/late-asset.js': `hexo.extend.generator.register('late-asset', async () => {
     await new Promise(resolve => setTimeout(resolve, 30));
@@ -97,9 +97,8 @@ withSite({ blogScripts: true, files: {
   assert.match(result.stdout + result.stderr, /collides/);
 });
 for (const reserved of ['sitemap.xml', 'robots.txt']) {
-  withSite({ blogScripts: true, files: { ...files, [`source/${reserved}`]: 'existing resource' } }, (dir, result) => {
+  testSite(`reserved discovery route collision: ${reserved}`, { blogScripts: true, files: { ...files, [`source/${reserved}`]: 'existing resource' } }, (dir, result) => {
     assert.notEqual(result.status, 0);
     assert.match(result.stdout + result.stderr, /Discovery route collision/);
   });
 }
-console.log('ok fictional migration, fallback/JS query parameters, discovery/feed, invalid mappings and generator-order safety');

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "test": "node test/lists.js && node test/integration.js && node test/menu.js && node test/metadata.js && node test/browsing.js && node test/migration.js && node test/verification.js && node test/blog-metadata.js && node test/blog-browsing.js && node test/blog-discovery.js",
+    "test": "npm run clean && npm run build && npm run test:checks",
+    "test:checks": "node --test --test-concurrency=1 test/lists.js test/integration.js test/menu.js test/metadata.js test/browsing.js test/migration.js test/verification.js test/blog-metadata.js test/blog-browsing.js test/blog-discovery.js",
     "clean": "hexo clean",
     "server": "hexo server"
   },
@@ -18,13 +19,23 @@
     "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-tag": "^2.0.0",
-    "hexo-pagination": "^4.0.0",
     "hexo-renderer-ejs": "^2.0.0",
     "hexo-renderer-marked": "^7.0.1",
-    "hexo-renderer-sass": "^0.5.0",
+    "hexo-renderer-dartsass": "^1.2.0",
+    "hexo-front-matter": "^5.0.0",
+    "hexo-util": "^4.0.0",
     "hexo-server": "^3.0.0",
     "image-size": "^2.0.4",
-    "object-assign": "^4.1.1",
-    "parse5": "^7.3.0"
+    "parse5": "^8.0.1"
+  },
+  "devDependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "hexo-cli": "^4.3.2",
+    "js-yaml": "^5.4.2"
+  },
+  "overrides": {
+    "hexo-front-matter@^5.0.0": {
+      "yaml": "2.8.3"
+    }
   }
 }

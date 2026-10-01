@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { withSite } = require('./helpers/site');
+const { testSite } = require('./helpers/site');
 const { document, pagination } = require('./helpers/html');
 
 const highlight = { enable: true, line_number: false, auto_detect: false, wrap: false, hljs: true, strip_indent: false, tab_replace: '' };
@@ -44,7 +44,7 @@ const unmarked = 1;
 \`\`\`` : 'Example body.'}`;
 }
 
-withSite({ files, config: {
+testSite('pagination, navigation, image dimensions, highlighting and styles', { files, config: {
   index_generator: { per_page: 12, order_by: '-date' },
   // Deliberately different: home must not determine archive/category behavior.
   per_page: 3,
@@ -157,24 +157,23 @@ withSite({ files, config: {
   assert.ok(!read(dir, 'index.html').includes('prototype'), 'no prototype controls in production');
   assert.match(css, /hljs-keyword/);
   assert.ok(fs.existsSync(path.join(dir, 'public/js/code-copy.js')));
-  console.log('ok generated navigation, local dimensions/loading and build highlighting');
 });
 
 // A source page owns the root even with categorized posts present. Removing it
 // removes only the overview, not the individual category routes.
-withSite({ files: { 'source/categories/index.md': '---\nlayout: page\ntitle: Source-owned overview\n---\nUnique source marker.' } }, (dir, result) => {
+testSite('source-owned category overview and copy opt-in', { files: { 'source/categories/index.md': '---\nlayout: page\ntitle: Source-owned overview\n---\nUnique source marker.' } }, (dir, result) => {
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.match(read(dir, 'categories/index.html'), /Unique source marker/);
   assert.ok(!read(dir, 'index.html').includes('src="/js/code-copy.js"'), 'copy opt-in');
 });
-withSite({ files: { 'source/categories/index.md': null }, config: { category_dir: 'topics' } }, (dir, result) => {
+testSite('no generated overview and custom category directory', { files: { 'source/categories/index.md': null }, config: { category_dir: 'topics' } }, (dir, result) => {
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.ok(!fs.existsSync(path.join(dir, 'public/categories/index.html')));
   assert.ok(!fs.existsSync(path.join(dir, 'public/topics/index.html')), 'no generator-owned overview');
   assert.ok(fs.existsSync(path.join(dir, 'public/topics/News/index.html')), 'category_dir honored');
 });
 
-withSite({ config: { root: '/blog/', url: 'https://example.com/blog' }, files: {
+testSite('root-prefixed and relative local image paths', { config: { root: '/blog/', url: 'https://example.com/blog' }, files: {
   'source/_posts/local.md': '---\ntitle: Local root\ndate: 2025-01-01\nphotos: /images/example.webp\n---\n![](/images/example.webp)\n\n<img src="../../../../images/example.webp" alt="">'
 } }, (dir, result) => {
   assert.equal(result.status, 0, result.stdout + result.stderr);
@@ -184,7 +183,7 @@ withSite({ config: { root: '/blog/', url: 'https://example.com/blog' }, files: {
   const article = document(read(dir, '2025/01/01/local/index.html'));
   article.tags('img').forEach(node => assert.equal(article.attrs(node).width, '32', 'root/relative asset dimensions'));
 });
-withSite({ files: {
+testSite('optional detail covers and about layout', { files: {
   'source/_posts/no-cover.md': '---\ntitle: No cover\ndate: 2025-01-01\n---\n![](/images/example.webp)',
   'source/_posts/hidden-cover.md': '---\ntitle: Hidden cover\ndate: 2025-01-01\nphotos: /images/example.webp\ncover: false\n---\n![](/images/example.webp)',
   'source/about/index.md': '---\nlayout: about\n---\n# About\n\nAbout body.'
@@ -203,4 +202,3 @@ withSite({ files: {
   assert.equal(about.attrs(about.tags('body')[0])['data-layout'], 'about');
   assert.equal(about.attrs(about.tags('section')[0]).class, 'article', 'about is not styled as a post');
 });
-console.log('ok source-owned category root, theme opt-in, image paths and optional covers');

@@ -3,7 +3,8 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { spawnSync } = require('node:child_process');
+const { test } = require('node:test');
+const { runSync } = require('./process');
 const yaml = require('js-yaml');
 
 const site = path.resolve(__dirname, '..', '..');
@@ -51,11 +52,17 @@ function withSite({ config = {}, files = {}, feedPlugin = true, blogScripts = fa
       fs.mkdirSync(path.dirname(target), { recursive: true });
       fs.writeFileSync(target, content);
     }
-    const result = spawnSync(process.execPath, ['-e', generateScript], { cwd: dir, encoding: 'utf8' });
+    const result = runSync('generate fictional site', process.execPath, ['-e', generateScript], { cwd: dir });
     return verify(dir, result);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 }
 
-module.exports = { withSite };
+// Registration is separate from the synchronous fixture lifetime. Each named
+// test owns its site until verification returns, including expected build errors.
+function testSite(name, options, verify) {
+  return test(name, () => withSite(options, verify));
+}
+
+module.exports = { withSite, testSite };
