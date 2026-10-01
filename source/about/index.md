@@ -9,7 +9,7 @@ title: about
 
 ## 你是？
 
-我是 Image Builder，什么都不会，还有好多东西要学🤓
+我是 imagebuilder1837，什么都不会，还有好多东西要学🤓
 
 ## 这里是？
 

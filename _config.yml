@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Image Builder
-description: Image Builder 的个人博客，记录技术实践、ACGN 观后感与教育、社会议题随想，也收录译文、马前卒课程转写及转载。
+title: imagebuilder1837
+description: imagebuilder1837 的个人博客，记录技术实践、ACGN 观后感与教育、社会议题随想，也收录译文、马前卒课程转写及转载。
 author: imagebuilder1837
 language: zh-CN
 timezone: Asia/Shanghai
@@ -107,7 +107,7 @@ theme: clover
 # Site-owned Clover identity and navigation (merged with the theme defaults).
 theme_config:
   nav:
-    title: Image Builder
+    title: imagebuilder1837
   favicon: /images/avatar.ico
   social:
     Bangumi: https://bgm.tv/user/imagebuilder183
