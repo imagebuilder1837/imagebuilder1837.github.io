@@ -2,8 +2,6 @@
 
 ## 安装与预览
 
-使用 [CI 指定的 Node major](../.github/workflows/ci.yml)；不承诺其他 major 的兼容支持。
-
 ```bash
 git clone git@github.com:imagebuilder1837/imagebuilder1837.github.io.git
 cd imagebuilder1837.github.io

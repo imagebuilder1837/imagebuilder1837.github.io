@@ -11,6 +11,7 @@ const site = path.resolve(__dirname, '..');
 const config = yaml.load(fs.readFileSync(path.join(site, '_config.yml'), 'utf8'));
 const publicDir = path.resolve(site, config.public_dir || 'public');
 const base = new URL(config.url.replace(/\/?$/, '/'));
+const root = base.pathname;
 const files = new Map();
 for (const route of fs.readdirSync(publicDir, { recursive: true })) {
   const stat = fs.statSync(path.join(publicDir, route));
@@ -40,8 +41,10 @@ for (const route of files.keys()) {
       const href = attrs.href || attrs.src;
       if (href) {
         const url = new URL(href, pageURL);
-        if (url.origin === base.origin && ['http:', 'https:'].includes(url.protocol)) {
-          const filename = decodeURIComponent(url.pathname).replace(/^\//, '');
+        const pathname = url.pathname;
+        if (url.origin === base.origin && ['http:', 'https:'].includes(url.protocol) &&
+            (pathname === root.slice(0, -1) || pathname.startsWith(root))) {
+          const filename = decodeURIComponent(pathname === root.slice(0, -1) ? '' : pathname.slice(root.length));
           const index = path.posix.join(filename, 'index.html');
           const target = files.has(filename) ? filename
             : files.has(index) || url.pathname.endsWith('/') ? index : filename;

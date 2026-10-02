@@ -82,13 +82,13 @@ hexo.extend.filter.register('after_generate', async function () {
     if (!routes.has(routeFor(alias.to))) throw new Error(`Missing redirect target: ${alias.to}`);
   }
 
-  // Only rendered directory HTML with a self-canonical and a page heading is
-  // discoverable. Assets, verification files, 404 and redirects are excluded.
+  // Directory HTML is formal by route, not by the metadata being validated.
+  // Assets, standalone verification HTML and 404 are excluded; compatibility
+  // pages are registered only after this validation.
   const pages = new Map();
   for (const route of [...routes].sort()) {
     if (!/(?:^|\/)index\.html$/.test(route) || /^404(?:\/|\.)/.test(route)) continue;
     const { canonicals, headings } = metadata(await readRoute(route));
-    if (!canonicals.length && !headings) continue;
     const expected = expectedCanonical(route);
     if (canonicals.length !== 1 || canonicals[0] !== expected || headings !== 1) {
       throw new Error(`Invalid discoverable page metadata: ${route}`);

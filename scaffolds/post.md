@@ -7,7 +7,7 @@ description:
 # author: author
 # source_url: https://example.com/original/
 photos:
-# permalink: /YYYY/MM/DD/readable-english-id/
+permalink:
 categories:
 tags:
 ---
