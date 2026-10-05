@@ -3,7 +3,7 @@
 - This branch contains the Hexo source. The published site currently comes
   from `main`; do not change Pages settings or run deployment without explicit
   approval.
-- `themes/clover` is a separate Git submodule. Commit theme changes in its
+- `themes/clover-evo` is a separate Git submodule. Commit theme changes in its
   repository, push the theme commit, then update and commit the blog's submodule
   pointer.
 - Commit messages follow Conventional Commits.

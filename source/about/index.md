@@ -17,7 +17,7 @@ title: about
 
 ## 这是什么主题？
 
-是 [Clover Tuan](https://esappear.github.io/clover/) 太太的主题，名字就叫 [clover](https://github.com/esappear/hexo-theme-clover)。但因为太太的主题直接 clone 下来有点小 bug，我自己缝补了一下做了点改动，可以看[这里](https://github.com/imagebuilder1837/hexo-theme-clover)（我在仓库里没有找到太太用的开源许可证，如果太太您在看而且觉得不妥的话还请告知）
+[Clover Evo](https://github.com/imagebuilder1837/hexo-theme-clover-evo) 是我基于 [Clover Tuan](https://esappear.github.io/clover/) 太太的 [Clover](https://github.com/esappear/hexo-theme-clover) 修补和改进而来的主题（我在仓库里没有找到太太用的开源许可证，如果太太您在看而且觉得不妥的话还请告知）
 
 ## 去哪里找你？
 

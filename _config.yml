@@ -103,8 +103,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: clover
-# Site-owned Clover identity and navigation (merged with the theme defaults).
+theme: clover-evo
+# Site-owned Clover Evo identity and navigation (merged with the theme defaults).
 theme_config:
   nav:
     title: imagebuilder1837
