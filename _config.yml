@@ -11,7 +11,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://imagebuilder1837.github.io
+url: https://imagebuilder1837.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -99,6 +99,10 @@ pagination_dir: page
 include:
 exclude:
 ignore:
+
+# Empty token disables analytics; the allowed hostname is derived from url.
+cloudflare_web_analytics:
+  token: 50d8e16ff3254b6eb6b8438786467d0b
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
