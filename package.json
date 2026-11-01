@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "hexo-cli": "^4.3.2",
-    "js-yaml": "^5.4.2"
+    "js-yaml": "^5.5.0"
   },
   "overrides": {
     "hexo-front-matter@^5.0.0": {
