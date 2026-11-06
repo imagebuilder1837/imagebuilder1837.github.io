@@ -34,4 +34,4 @@ title: about
 
 ## 你的好朋友？
 
-[Zjl37](https://astro.momentum.moe/)
+- [Aronnax's Blog](https://aronnax.site/)
