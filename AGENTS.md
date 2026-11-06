@@ -4,7 +4,7 @@
   from `main`; do not change Pages settings or run deployment without explicit
   approval.
 - `themes/clover-evo` is a separate Git submodule. Commit theme changes in its
-  repository, push the theme commit, then update and commit the blog's submodule
+  repository, then update and commit the blog's submodule
   pointer.
 - Commit messages follow Conventional Commits.
 - Issues are read-only by default. Create, edit, comment on, label, or close an
