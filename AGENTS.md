@@ -2,7 +2,6 @@
 
 - This branch contains the Hexo source. The published site currently comes from `main`; do not change Pages settings or run deployment without explicit approval.
 - `themes/clover-evo` is a separate Git submodule. Commit theme changes in its repository, then update and commit the blog's submodule pointer.
-- This personal blog uses one clean build and a lightweight generated-file/link check via `npm test`.
 - Add tests, broaden checks, or introduce testing infrastructure only with explicit user approval. Existing checks may be adapted to approved changes within their current scope, but explicitly notify the user of the changes and reasons.
 
 ## Agent skills
@@ -17,4 +16,4 @@ Use the five canonical triage roles. See `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-Use a single-context layout; create glossary entries and ADRs only when needed. See `docs/agents/domain.md`.
+Before changing domain language or recording a design decision, read `docs/agents/domain.md`.

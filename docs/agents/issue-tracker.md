@@ -8,8 +8,8 @@ use the same explicit owner/repo path.
 
 Issues are read-only by default. A skill's instruction to publish a spec,
 ticket, triage result, or wayfinder map authorizes only that requested
-operation. Do not modify unrelated issues. Do not treat an external PR as an
-issue-triage request; PRs as a request surface: no.
+operation. Run issue triage when the user requests it or invokes a triage
+skill.
 
 When a skill says "publish to the issue tracker", create a GitHub issue.
 When it says "fetch the relevant ticket", read its body, labels, and comments.
