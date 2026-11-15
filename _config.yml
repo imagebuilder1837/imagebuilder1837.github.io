@@ -126,8 +126,8 @@ theme_config:
     GitHub: https://github.com/imagebuilder1837
     Zhihu: https://www.zhihu.com/people/imagebuilder1837
     bilibili: https://space.bilibili.com/366719977
+    Mail: mailto:imagebuilder1837@outlook.com
     RSS: /atom.xml
-  mail: imagebuilder1837@outlook.com
   copyright: This blog by <a href="/" target="_blank">imagebuilder1837</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
   code_copy: true
   menu:
