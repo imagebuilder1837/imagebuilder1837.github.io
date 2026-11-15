@@ -76,6 +76,7 @@ index_generator:
 # Keep these indexes complete independently of home/global pagination.
 archive_generator:
   per_page: 0
+  monthly: false
 category_generator:
   per_page: 0
 
