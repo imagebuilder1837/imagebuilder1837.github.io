@@ -5,33 +5,64 @@ title: about
 
 # About
 
-嗨！
+> 不疑 不惧 去求知 知晓一切 方得救赎
 
-## 你是？
+## Overview
 
-我是 imagebuilder1837，什么都不会，还有好多东西要学🤓
+**imagebuilder1837**……不，或许也可以说是 **银狂TDF** 吧，目前还在为每天两千大卡的生存目标奋斗中。梦想是填满现实世界的银钥匙，抵达变动率 1.048596% 的世界线——在那里，人们不必为了谋生奔忙，也仍愿意共同创造。
 
-## 这里是？
+非科班折腾爱好者，靠着好奇心、审美直觉和问题驱动的热情，挂载 AI Agent 义体给日常使用的软件和社区修修补补。努力理解、分解、再构筑，让 Agent 投影出的代码不输给真物。
 
-这里是我的个人博客，我会在这里分享碰到的有意思的东西。水平有限，还请大佬们手下留情🥺
+## Gadgets
 
-## 这是什么主题？
+实用主义当先，偏爱极简、优雅与开源。对自由软件抱有朦胧的好感，时常觉得开源社区颇有些共产主义的浪漫。挑工具时优先看开源方案，但也不拒绝好用的闭源软件。I use Arch, btw——不过如今是在 Windows 的 WSL 里暂且偏安。
 
-[Clover Evo](https://github.com/imagebuilder1837/hexo-theme-clover-evo) 是我基于 [Clover Tuan](https://esappear.github.io/clover/) 太太的 [Clover](https://github.com/esappear/hexo-theme-clover) 修补和改进而来的主题（我在仓库里没有找到太太用的开源许可证，如果太太您在看而且觉得不妥的话还请告知）
+曾是会刷原生 ROM 的机佬，目前被大电池招安。拿 BL 解锁自由换来 10000 mAh 续航拉满，姑且算是等价交换，起码 Shizuku、GKD 及 Termux 等仍在上班。另有充电头和充电宝若干，由 KM003C 与维简 C0Q 负责~~视奸~~监管。中年男人三件套进度一杠三，至于 NAS 和软路由，待固定窝点落实后再行置办。
 
-## 去哪里找你？
+（skr~）
 
-我平时主要在这些地方待着：
+## ACGN
+
+多年以后，面对尚未完成的 About，我将会回想起那个因为好奇所谓“镇站之宝”，随手点进超炮的除夕。于是写下：“我对偷懒的作品没有兴趣。假如你们当中有结构美、情绪流、鲜活角色或者漂亮演出，尽管来找我。以上。”
+
+爱看角色纠缠着把关系处得拎不清，《MyGO!!!!!》《魔法少女的魔女审判》和《来自风平浪静的明天》都吃得格外过瘾；也喜欢平静生活中真实可感的困境，为《义妹生活》《妹妹人生》和《异国日记》而揪心。欣赏精妙织就的叙事设计，看完《奇巧计程车》《重启咲良田》和《沉默魔女的秘密》都赞叹不已；也能沉浸于纯粹的视听演绎，《魔法使之夜》《风人物语》和《记忆管理局》都看得狂喜。
+
+游戏这块主要把 Gal、解谜以及剧情向单机当正餐吃，偶尔打打音游作为甜点。《明日方舟》和《边狱巴士》这俩二游，虽然一个退坑已久，一个从没玩过，但不妨碍我跟着云每期剧情。平时会给作品留下短评，兴致到了也会写篇长文或是剪个视频。
+
+## Music
+
+听歌先听声音，感兴趣了再看歌词，毕竟人声也只是配器的一种嘛（笑）。正如 [鸢梦Yumeko](https://space.bilibili.com/174595944) 所说：“编曲贵在做有变化的重复。”无论音色、旋律还是编排，总得有个抓耳的“曲眼”才好收进歌单。若是觉得某位音乐人每首都对胃口，还会在本地曲库单开一个目录。
+
+开心时随 Kirara Magic、Xomu、PIKASONIC 和ナナツカゼ雀跃，平静时随ヨルシカ和あたらよ哼唱；跟着草东没有派对和 Falling In Reverse 朝外界嘶声呐喊，也循着 STARSET 和 Ave Mujica 向内心深处潜航。不少音乐都是方舟及其同人领进门的，退坑之后听歌之路倒是越岔越远。另有一份干活专用纯音乐清单，让全成就游戏的原声接着加班。
+
+## Known Issues
+
+- 超高校级的不务正业，在无关支线上爆发出的生产力与主线任务的紧迫程度成正比。
+- 制定精密作息表的能力与打破它的才能不相上下。
+- 眼界提升速度常年快于手头技能精进，正在学习与这种时间差和平共处。
+- 社交能量有限，不擅长记认面孔与寒暄，但始终欢迎围绕具体问题的直接交流。
+
+## Spawn Points
 
 - 作品收集：[Bangumi](https://bgm.tv/user/imagebuilder183)
-- 折腾工具：[GitHub](https://github.com/imagebuilder1837)
+- 开源折腾：[GitHub](https://github.com/imagebuilder1837)
 - 学习吐槽：[Zhihu](https://www.zhihu.com/people/imagebuilder1837)
-- 看看视频：[bilibili](https://space.bilibili.com/366719977)
+- 搓搓视频：[bilibili](https://space.bilibili.com/366719977)
+- 邮件联系：[imagebuilder1837@outlook.com](mailto:imagebuilder1837@outlook.com)
 
-## 和你说话！
+## Friends
 
-可以发到我邮箱里！我的邮箱是 [imagebuilder1837@outlook.com](mailto:imagebuilder1837@outlook.com)
+- [Aronnax's Blog](https://aronnax.site/)：代码 | 科技 | 动漫 | 影视
 
-## 你的好朋友？
+欢迎交换友链！请将博客名称、简介、地址和头像链接（可选）[发到邮箱](mailto:imagebuilder1837@outlook.com)。
 
-- [Aronnax's Blog](https://aronnax.site/)
+```text
+名称：imagebuilder1837 的个人博客
+简介：记录技术折腾、ACGN 感想与日常思考。
+地址：https://imagebuilder1837.github.io/
+头像：https://imagebuilder1837.github.io/images/avatar.webp
+```
+
+---
+
+> 正于此地 愿您找到想要的书
